@@ -11,6 +11,12 @@
 		61BC228029AD25B9004200F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC227F29AD25B9004200F9 /* ContentView.swift */; };
 		61BC228229AD25BC004200F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61BC228129AD25BC004200F9 /* Assets.xcassets */; };
 		61BC228529AD25BC004200F9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61BC228429AD25BC004200F9 /* Preview Assets.xcassets */; };
+		61BC228E29AD2EE2004200F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC228D29AD2EE2004200F9 /* User.swift */; };
+		61BC229029AD2EED004200F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC228F29AD2EED004200F9 /* Post.swift */; };
+		61BC229529AD3036004200F9 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC229429AD3036004200F9 /* SignUp.swift */; };
+		61EF2C9929AD37E500429194 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61EF2C9829AD37E500429194 /* GoogleService-Info.plist */; };
+		61EF2C9B29AD38CD00429194 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EF2C9A29AD38CD00429194 /* SignIn.swift */; };
+		61EF2C9D29AD3A1600429194 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EF2C9C29AD3A1600429194 /* PostView.swift */; };
 		FB580C23ABE4D29369DA2903 /* Pods_Fred.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E84BD9B5946E4B2E8F227BA5 /* Pods_Fred.framework */; };
 /* End PBXBuildFile section */
 
@@ -22,6 +28,12 @@
 		61BC227F29AD25B9004200F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		61BC228129AD25BC004200F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		61BC228429AD25BC004200F9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		61BC228D29AD2EE2004200F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		61BC228F29AD2EED004200F9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		61BC229429AD3036004200F9 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		61EF2C9829AD37E500429194 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		61EF2C9A29AD38CD00429194 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
+		61EF2C9C29AD3A1600429194 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		E84BD9B5946E4B2E8F227BA5 /* Pods_Fred.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fred.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -43,7 +55,6 @@
 				3B6BB917B72B45160C7CC0BE /* Pods-Fred.debug.xcconfig */,
 				1A83953AD007F1D22FC64386 /* Pods-Fred.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -68,8 +79,10 @@
 		61BC227C29AD25B9004200F9 /* Fred */ = {
 			isa = PBXGroup;
 			children = (
+				61EF2C9829AD37E500429194 /* GoogleService-Info.plist */,
+				61BC228C29AD2ECF004200F9 /* Model */,
+				61BC228B29AD2EC8004200F9 /* Views */,
 				61BC227D29AD25B9004200F9 /* FredApp.swift */,
-				61BC227F29AD25B9004200F9 /* ContentView.swift */,
 				61BC228129AD25BC004200F9 /* Assets.xcassets */,
 				61BC228329AD25BC004200F9 /* Preview Content */,
 			);
@@ -82,6 +95,34 @@
 				61BC228429AD25BC004200F9 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		61BC228B29AD2EC8004200F9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				61BC229129AD301D004200F9 /* Auth */,
+				61BC227F29AD25B9004200F9 /* ContentView.swift */,
+				61EF2C9C29AD3A1600429194 /* PostView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		61BC228C29AD2ECF004200F9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				61BC228D29AD2EE2004200F9 /* User.swift */,
+				61BC228F29AD2EED004200F9 /* Post.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		61BC229129AD301D004200F9 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				61BC229429AD3036004200F9 /* SignUp.swift */,
+				61EF2C9A29AD38CD00429194 /* SignIn.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		E0370D348663FDF91165CED6 /* Frameworks */ = {
@@ -154,6 +195,7 @@
 			files = (
 				61BC228529AD25BC004200F9 /* Preview Assets.xcassets in Resources */,
 				61BC228229AD25BC004200F9 /* Assets.xcassets in Resources */,
+				61EF2C9929AD37E500429194 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,8 +248,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61EF2C9D29AD3A1600429194 /* PostView.swift in Sources */,
 				61BC228029AD25B9004200F9 /* ContentView.swift in Sources */,
+				61EF2C9B29AD38CD00429194 /* SignIn.swift in Sources */,
+				61BC229529AD3036004200F9 /* SignUp.swift in Sources */,
 				61BC227E29AD25B9004200F9 /* FredApp.swift in Sources */,
+				61BC228E29AD2EE2004200F9 /* User.swift in Sources */,
+				61BC229029AD2EED004200F9 /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
