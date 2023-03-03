@@ -6,11 +6,28 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseCore
 
 struct ContentView: View {
+
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        
+        NavigationView {
+            List {
+                ForEach(1...10, id: \.self) { post in
+                    NavigationLink(destination: Text("Post \(post)")) {
+                    VStack(alignment: .leading) {
+                            Text("Post \(post) Title").font(.headline)
+                        Text("Description of Post\(post)").font(.subheadline).foregroundColor(.gray)
+                                      }
+                                  }
+                }
+            }.navigationTitle("Social Media Feed")
+
+        }
+    
+    
     }
 }
 
