@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+
 struct SignIn: View {
     @State var email:String = ""
     @State var password:String = ""
@@ -19,14 +20,10 @@ struct SignIn: View {
                 FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password){data,error in
                     if(error == nil){
                         User.current = User(email: email)
+                        print("signed in")
+
                     }else{
-                        alert(isPresented:Binding<Bool>(get:{error == nil},set:{_ in})){
-    
-                              Alert(
-                                  title: Text("Error"),
-                                  message: Text(error!.localizedDescription)
-                              )
-                          }
+                        
                         print(error?.localizedDescription)
                     }
                     

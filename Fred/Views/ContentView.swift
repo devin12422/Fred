@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseAuth
 struct ContentView: View {
     var body: some View {
-        if(User.current == nil){
+        if(Auth.auth().currentUser == nil){
             NavigationView{
                 VStack{
                 NavigationLink{
@@ -27,8 +27,11 @@ struct ContentView: View {
             }
         }else{
             TabView{
-                PostView().tabItem{
-                    Label("Post", systemImage: "doc.text")
+                PostCreateView().tabItem{
+                    Label("Post", systemImage: "doc")
+                }
+                PostListView().tabItem{
+                    Label("Posts", systemImage: "doc.text")
                 }
             }
         }

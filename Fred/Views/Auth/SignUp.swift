@@ -7,9 +7,11 @@
 
 import SwiftUI
 import FirebaseAuth
+
 struct SignUp: View {
     @State var email:String = ""
     @State var password:String = ""
+
     var body: some View {
         VStack{
             TextField("Email", text: $email).padding()
@@ -18,6 +20,7 @@ struct SignUp: View {
                 FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password){data,error in
                     if(error == nil){
                         User.current = User(email: email)
+                        print("signed up")
                     }else{
                         print(error?.localizedDescription)
                     }

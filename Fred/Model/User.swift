@@ -6,14 +6,13 @@
 //
 import FirebaseAuth
 import Foundation
-class User{
-    static var current:User?;
-    var username:String;
-    var email:String;
+class User:Codable{
+    static var current:User = User(email: "nobody");
+    var username:String = "";
+    var email:String = "";
     init(email:String){
         self.email = email;
         self.username = email;
     }
-    static func signIn(){}
     
 }

@@ -6,21 +6,23 @@
 //
 
 import Foundation
-class Post{
+class Instruction:Codable,Identifiable{
+    var string:String;
+    var uuid = UUID();
+}
+class Post:Codable,Identifiable{
     var title:String;
     var description:String;
-    var instructions:[String];
+    var instructions:[Instruction];
     var author:User;
-    init(title:String,description:String,author:User,instructions:[String]){
+    let uuid = UUID();
+    init(title:String="",description:String = "",author:User = User.current,instructions:[Instruction]=[]){
         self.title = title
         self.description = description
         self.instructions = instructions
         self.author = author
     }
-    init(){
-        self.title = ""
-        self.description = ""
-        self.author = User.current!
-        self.instructions = []
+    func isComplete() -> Bool{
+        return !title.isEmpty && !description.isEmpty
     }
 }
