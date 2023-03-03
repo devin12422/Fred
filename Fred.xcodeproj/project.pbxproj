@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		619C437529B26B12006CDCF2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437429B26B12006CDCF2 /* SettingsView.swift */; };
+		619C437829B27095006CDCF2 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437729B27095006CDCF2 /* CreatePostView.swift */; };
+		619C437A29B270CC006CDCF2 /* PostListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437929B270CC006CDCF2 /* PostListView.swift */; };
 		61BC227E29AD25B9004200F9 /* FredApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC227D29AD25B9004200F9 /* FredApp.swift */; };
 		61BC228029AD25B9004200F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC227F29AD25B9004200F9 /* ContentView.swift */; };
 		61BC228229AD25BC004200F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61BC228129AD25BC004200F9 /* Assets.xcassets */; };
@@ -25,6 +27,8 @@
 		1A83953AD007F1D22FC64386 /* Pods-Fred.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fred.release.xcconfig"; path = "Target Support Files/Pods-Fred/Pods-Fred.release.xcconfig"; sourceTree = "<group>"; };
 		3B6BB917B72B45160C7CC0BE /* Pods-Fred.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fred.debug.xcconfig"; path = "Target Support Files/Pods-Fred/Pods-Fred.debug.xcconfig"; sourceTree = "<group>"; };
 		619C437429B26B12006CDCF2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		619C437729B27095006CDCF2 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		619C437929B270CC006CDCF2 /* PostListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListView.swift; sourceTree = "<group>"; };
 		61BC227A29AD25B9004200F9 /* Fred.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fred.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61BC227D29AD25B9004200F9 /* FredApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FredApp.swift; sourceTree = "<group>"; };
 		61BC227F29AD25B9004200F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,6 +62,16 @@
 				1A83953AD007F1D22FC64386 /* Pods-Fred.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		619C437629B2707E006CDCF2 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				61EF2C9C29AD3A1600429194 /* PostView.swift */,
+				619C437729B27095006CDCF2 /* CreatePostView.swift */,
+				619C437929B270CC006CDCF2 /* PostListView.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 		61BC227129AD25B8004200F9 = {
@@ -102,9 +116,9 @@
 		61BC228B29AD2EC8004200F9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				619C437629B2707E006CDCF2 /* Post */,
 				61BC229129AD301D004200F9 /* Auth */,
 				61BC227F29AD25B9004200F9 /* ContentView.swift */,
-				61EF2C9C29AD3A1600429194 /* PostView.swift */,
 				619C437429B26B12006CDCF2 /* SettingsView.swift */,
 			);
 			path = Views;
@@ -255,7 +269,9 @@
 				619C437529B26B12006CDCF2 /* SettingsView.swift in Sources */,
 				61BC228029AD25B9004200F9 /* ContentView.swift in Sources */,
 				61EF2C9B29AD38CD00429194 /* SignIn.swift in Sources */,
+				619C437A29B270CC006CDCF2 /* PostListView.swift in Sources */,
 				61BC229529AD3036004200F9 /* SignUp.swift in Sources */,
+				619C437829B27095006CDCF2 /* CreatePostView.swift in Sources */,
 				61BC227E29AD25B9004200F9 /* FredApp.swift in Sources */,
 				61BC228E29AD2EE2004200F9 /* User.swift in Sources */,
 				61BC229029AD2EED004200F9 /* Post.swift in Sources */,
