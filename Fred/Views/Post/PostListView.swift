@@ -23,21 +23,21 @@ struct PostListView: View {
 
     var body: some View {
         VStack{
-            HStack{
-                Picker("Menu",selection:$menu_state){
-                    ForEach(MenuState.allCases) { state in
-                        Text(state.rawValue.capitalized)
-                    }
-                }.frame(maxWidth: 50).pickerStyle(.wheel)
-                switch menu_state {
-                case .Feed: Text("bruhd")
-                    
-                case .Mine:
-                    Text("bruh")
-                case .Search:
-                    TextField("Search",text:$search)
-                }
-            }
+//            HStack{
+//                Picker("Menu",selection:$menu_state){
+//                    ForEach(MenuState.allCases) { state in
+//                        Text(state.rawValue.capitalized)
+//                    }
+//                }.frame(maxWidth: 50).pickerStyle(.wheel)
+//                switch menu_state {
+//                case .Feed: Text("bruhd")
+//                    
+//                case .Mine:
+//                    Text("bruh")
+//                case .Search:
+//                    TextField("Search",text:$search)
+//                }
+//            }
             NavigationView{
                 List(posts){post in
 

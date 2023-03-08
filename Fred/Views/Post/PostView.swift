@@ -12,10 +12,36 @@ import FirebaseAuth
 struct PostView: View {
     var post:Post
     var body: some View {
-        VStack{
-            Text(post.title)
-            Text(post.author.email)
-        }
+        VStack(alignment: .leading) {
+                             HStack {
+                                 Image("profile-picture").resizable().scaledToFit().frame(width: 40, height: 40).clipShape(Circle())
+                                 Text(post.author.username).font(.subheadline) .fontWeight(.bold)
+                                 
+                             }.padding(.bottom, 8)
+                                
+            Text(post.title).font(.title3).fontWeight(.bold)
+            Text(post.description).font(.subheadline).foregroundColor(.gray).padding(.bottom, 8)
+                             HStack {
+                                 Button {
+                                 
+                                 } label: {
+                                     HStack {
+                                         Image(systemName: "heart")
+                                         Text("Like")
+                                     }
+                                 }
+                                 
+                                 Button {
+                                 
+                                 } label: {
+                                     HStack {
+                                         Image(systemName: "message")
+                                         Text("Comment")
+                                     }
+                                 }
+                             }.padding(.top, 8).foregroundColor(.gray)
+                         
+                         }.padding().background(Color.white).cornerRadius(10)
     }
 }
 
