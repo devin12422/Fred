@@ -14,7 +14,7 @@ struct PostView: View {
     var body: some View {
         VStack{
             Text(post.title)
-            Text(post.author.username)
+            Text(post.author.email)
         }
     }
 }
@@ -22,24 +22,5 @@ struct PostView: View {
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
         PostView(post:Post())
-    }
-}
-struct PostDetailView: View {
-    var post:Post
-    var body: some View {
-        VStack{
-            Text(post.title)
-            Text(post.author.username)
-            Text(post.description)
-            List(post.instructions){instruction in
-                Text(instruction.string)
-            }
-        }
-    }
-}
-
-struct PostDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostDetailView(post: Post())
     }
 }

@@ -31,7 +31,10 @@ struct ContentView: View {
                     Label("Post", systemImage: "doc")
                 }
                 PostListView().tabItem{
-                    Label("Posts", systemImage: "doc.text")
+                    Label("Feed", systemImage: "doc.text")
+                }
+                SettingsView().tabItem{
+                    Label("Settings",systemImage: "settings")
                 }
             }
         }

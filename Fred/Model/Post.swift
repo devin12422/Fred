@@ -16,7 +16,7 @@ class Post:Codable,Identifiable{
     var instructions:[Instruction];
     var author:User;
     let uuid = UUID();
-    init(title:String="",description:String = "",author:User = User.current,instructions:[Instruction]=[]){
+    init(title:String="",description:String = "",author:User = getCurrentUser(),instructions:[Instruction]=[]){
         self.title = title
         self.description = description
         self.instructions = instructions

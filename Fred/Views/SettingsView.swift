@@ -6,10 +6,26 @@
 //
 
 import SwiftUI
-
+import FirebaseAuth
 struct SettingsView: View {
+    @State var user:User = getCurrentUser()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+        Text(user.email)
+        TextField("Username",text: $user.username).onSubmit{
+            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+            changeRequest?.displayName = user.username
+            changeRequest?.commitChanges { error in
+                if error != nil{
+                    print(error?.localizedDescription)
+                }
+            }
+        }
+            Button{
+                try? Auth.auth().signOut()
+                
+            }label:{Text("sign out")}
+        }
     }
 }
 

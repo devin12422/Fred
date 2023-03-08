@@ -68,7 +68,10 @@ struct PostListView: View {
 
                     }
                     // The items under storageReference.
-                }}
+                    
+                        }
+                    }
+                    
                 }
             }
         }

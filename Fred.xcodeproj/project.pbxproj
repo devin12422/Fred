@@ -10,6 +10,7 @@
 		619C437529B26B12006CDCF2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437429B26B12006CDCF2 /* SettingsView.swift */; };
 		619C437829B27095006CDCF2 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437729B27095006CDCF2 /* CreatePostView.swift */; };
 		619C437A29B270CC006CDCF2 /* PostListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437929B270CC006CDCF2 /* PostListView.swift */; };
+		619C437C29B271A4006CDCF2 /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437B29B271A4006CDCF2 /* PostDetailView.swift */; };
 		61BC227E29AD25B9004200F9 /* FredApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC227D29AD25B9004200F9 /* FredApp.swift */; };
 		61BC228029AD25B9004200F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC227F29AD25B9004200F9 /* ContentView.swift */; };
 		61BC228229AD25BC004200F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61BC228129AD25BC004200F9 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 		619C437429B26B12006CDCF2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		619C437729B27095006CDCF2 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		619C437929B270CC006CDCF2 /* PostListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListView.swift; sourceTree = "<group>"; };
+		619C437B29B271A4006CDCF2 /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
 		61BC227A29AD25B9004200F9 /* Fred.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fred.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61BC227D29AD25B9004200F9 /* FredApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FredApp.swift; sourceTree = "<group>"; };
 		61BC227F29AD25B9004200F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				61EF2C9C29AD3A1600429194 /* PostView.swift */,
 				619C437729B27095006CDCF2 /* CreatePostView.swift */,
 				619C437929B270CC006CDCF2 /* PostListView.swift */,
+				619C437B29B271A4006CDCF2 /* PostDetailView.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				619C437C29B271A4006CDCF2 /* PostDetailView.swift in Sources */,
 				61EF2C9D29AD3A1600429194 /* PostView.swift in Sources */,
 				619C437529B26B12006CDCF2 /* SettingsView.swift in Sources */,
 				61BC228029AD25B9004200F9 /* ContentView.swift in Sources */,

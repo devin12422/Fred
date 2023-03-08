@@ -11,20 +11,24 @@ import FirebaseAuth
 struct SignIn: View {
     @State var email:String = ""
     @State var password:String = ""
+    @State var loading = false
     var body: some View {
         VStack{
             TextField("Email", text: $email).padding()
             SecureField("Password",text: $password).padding()
-            Button{}label:{Text("Forgot Password")}
+//            Button{}label:{Text("Forgot Password")}
             Button{
-                FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password){data,error in
+                if(!loading){
+                    loading = true
+                    FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password){data,error in
                     if(error == nil){
-                        User.current = User(email: email)
+                        loading = false
                         print("signed in")
-
                     }else{
-                        
+                        loading = false
                         print(error?.localizedDescription)
+                    }
+                    
                     }
                     
                 }
