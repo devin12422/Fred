@@ -20,17 +20,30 @@ struct ContentView: View {
                     VStack(alignment: .leading) {
                         HStack {
                             Image("profile-picture").resizable().scaledToFit().frame(width: 40, height: 40).clipShape(Circle())
-                            Text("username").font(.subheadline) .fontWeight(.bold)
+                            Text("Fred").font(.subheadline) .fontWeight(.bold)
                             
                         }.padding(.bottom, 8)
                            
                     Text("Post \(post) Title").font(.title3).fontWeight(.bold)
                         Text("Description of Post \(post)").font(.subheadline).foregroundColor(.gray).padding(.bottom, 8)
                         HStack {
-                            Image(systemName: "heart")
-                            Text("Like")
-                            Image(systemName: "message")
-                            Text("Comment")
+                            Button {
+                            
+                            } label: {
+                                HStack {
+                                    Image(systemName: "heart")
+                                    Text("Like")
+                                }
+                            }
+                            
+                            Button {
+                            
+                            } label: {
+                                HStack {
+                                    Image(systemName: "message")
+                                    Text("Comment")
+                                }
+                            }
                         }.padding(.top, 8).foregroundColor(.gray)
                     
                     }.padding().background(Color.white).cornerRadius(10)
