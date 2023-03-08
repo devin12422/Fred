@@ -9,13 +9,35 @@ import SwiftUI
 import SwiftUI
 import FirebaseStorage
 import FirebaseAuth
+enum MenuState:String, CaseIterable, Identifiable{
+    var id: Self { self }
 
+    case Feed
+    case Mine
+    case Search
+}
 struct PostListView: View {
     @State var posts:[Post] = [];
-        
+    @State var menu_state:MenuState = .Mine
+    @State var search:String = ""
+
     var body: some View {
         VStack{
-            Text("Posts")
+            HStack{
+                Picker("Menu",selection:$menu_state){
+                    ForEach(MenuState.allCases) { state in
+                        Text(state.rawValue.capitalized)
+                    }
+                }.frame(maxWidth: 50).pickerStyle(.wheel)
+                switch menu_state {
+                case .Feed: Text("bruhd")
+                    
+                case .Mine:
+                    Text("bruh")
+                case .Search:
+                    TextField("Search",text:$search)
+                }
+            }
             NavigationView{
                 List(posts){post in
 
