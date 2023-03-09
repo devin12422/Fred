@@ -24,7 +24,7 @@ struct SignUp: View {
                         loading = false
                         print("signed up")
                     }else{
-                        loading = false
+                        loading = true
 
                         print(error?.localizedDescription)
                     }
