@@ -13,7 +13,7 @@ struct PostDetailView: View {
     var body: some View {
         VStack{
             Text(post.title)
-            Text(post.author.email)
+            Text(post.author.username)
             Text(post.description)
             List(post.instructions){instruction in
                 Text(instruction.string)

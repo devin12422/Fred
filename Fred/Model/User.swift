@@ -11,9 +11,13 @@ import FirebaseCore
 class User:Codable,ObservableObject{
     var username:String = "";
     var email:String = "";
-    init(email:String){
+    init(email:String,username:String? = .none){
         self.email = email;
-        self.username = email;
+        if(username != nil){
+            self.username = username!;
+        }else{
+            self.username = email;
+        }
     }
     init(user:User){
         self.username = user.username

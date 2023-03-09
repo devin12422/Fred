@@ -12,6 +12,7 @@ struct SignIn: View {
     @State var email:String = ""
     @State var password:String = ""
     @State var loading = false
+    @Binding var logged:Bool
     var body: some View {
         VStack{
             TextField("Email", text: $email).padding()
@@ -24,6 +25,8 @@ struct SignIn: View {
                     if(error == nil){
                         loading = false
                         print("signed in")
+                        logged = true
+
                     }else{
                         loading = false
                         print(error?.localizedDescription)
@@ -41,6 +44,6 @@ struct SignIn: View {
 
 struct SignIn_Previews: PreviewProvider {
     static var previews: some View {
-        SignIn()
+        SignIn(logged:Binding.constant(false))
     }
 }
