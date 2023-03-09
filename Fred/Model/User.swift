@@ -9,8 +9,9 @@ import Foundation
 import SwiftUI
 import FirebaseCore
 class User:Codable,ObservableObject{
-    var username:String = "";
-    var email:String = "";
+    var username:String = ""
+    var email:String = ""
+    var uid:String = ""
     init(email:String,username:String? = .none){
         self.email = email;
         if(username != nil){
@@ -18,10 +19,12 @@ class User:Codable,ObservableObject{
         }else{
             self.username = email;
         }
+        self.uid = ""
     }
     init(user:User){
         self.username = user.username
         self.email = user.email
+        self.uid = user.uid
     }
 
     
@@ -31,5 +34,7 @@ func getCurrentUser()-> User{
     if Auth.auth().currentUser!.displayName != nil{
         user.username = Auth.auth().currentUser!.displayName!
     }
+    user.uid = (Auth.auth().currentUser?.uid)!
+
     return user
 }

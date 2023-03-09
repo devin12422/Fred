@@ -66,8 +66,12 @@ struct PostListView: View {
                                 if let error = error {
                                     print(error.localizedDescription)
                                 }else{
-                                    let p = try? decoder.decode(Post.self, from: result!);
-                                    posts.append(p!)
+                                    guard let p = try? decoder.decode(Post.self, from: result!)
+                                    else{
+                                        print("error");                                      return;
+                                    }
+            
+                                            posts.append(p)
 
 
                                 }
