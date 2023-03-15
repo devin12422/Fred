@@ -20,13 +20,13 @@ struct SignUp: View {
                 if(!loading){
                     loading = true
                 FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password){data,error in
-                    if(error == nil){
+            if let error = error {
+                    DispatchQueue.main.async{
                         loading = false
-                        print("signed up")
-                    }else{
-                        loading = true
-
-                        print(error?.localizedDescription)
+    print(error.localizedDescription) }
+            }else{
+                loading = true
+                print(error?.localizedDescription)
                     }
                 }
                     

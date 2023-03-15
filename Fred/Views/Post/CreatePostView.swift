@@ -10,9 +10,12 @@ import FirebaseStorage
 import FirebaseAuth
 struct PostCreateView: View {
     @State var post:Post = Post()
+    @State var showAlert: Bool = false
     var body: some View {
         VStack{
+            Text("Enter a Title for the post")
             TextField("Name",text: $post.title)
+            Text("Please make a description for the post")
             TextField("Description",text: $post.description)
             HStack{
                 Button{
@@ -24,10 +27,24 @@ struct PostCreateView: View {
             
         
                 }label:{Text("Post")}
+            }.alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Success"),
+                    message: Text("Your post has been created."),
+                    dismissButton: .default(Text("OK"))
+                )
             }
+            Spacer()
         }
+        .navigationBarTitle(Text("Create Post"), displayMode: .inline)
+        .padding()
     }
 }
+           
+            
+        
+    
+
 
 struct PostCreateView_Previews: PreviewProvider {
     static var previews: some View {
