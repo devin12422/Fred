@@ -22,6 +22,7 @@ struct SettingsView: View {
                 if error != nil{
                     print(error?.localizedDescription)
                 }
+                print(user.username)
             }
         }}
             Button{

@@ -24,7 +24,6 @@ struct SignIn: View {
                     FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password){data,error in
                     if(error == nil){
                         loading = false
-                        print("signed in")
                         logged = true
 
                     }else{

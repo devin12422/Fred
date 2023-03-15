@@ -8,6 +8,7 @@ import FirebaseAuth
 import Foundation
 import SwiftUI
 import FirebaseCore
+import FirebaseStorage
 class User:Codable,ObservableObject{
     var username:String = ""
     var email:String = ""
@@ -21,10 +22,27 @@ class User:Codable,ObservableObject{
         }
         self.uid = ""
     }
-    init(user:User){
-        self.username = user.username
-        self.email = user.email
-        self.uid = user.uid
+    init(from:User){
+        self.username = from.username
+        self.email = from.email
+        self.uid = from.uid
+    }
+    init(uid:String){
+        Storage.storage().reference(withPath:"users/\(uid)").getData(maxSize: INT64_MAX){ [self]
+            data, error in
+            if(error == nil){
+                let decoder = JSONDecoder();
+                let u = try! decoder.decode(User.self, from: data!);
+                copyTo(from: u, to: self)
+            }else{
+                print(error?.localizedDescription)
+            }
+        }
+    }
+    func copyTo(from:User,to:User){
+        to.uid = from.uid
+        to.username = from.username
+        to.email = from.email
     }
 
     

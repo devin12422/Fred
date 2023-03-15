@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseStorage
 import FirebaseAuth
 struct PostCreateView: View {
-    @State var post:Post = Post()
+    @State var post:Post = Post(user: getCurrentUser())
     var body: some View {
         VStack{
             TextField("Name",text: $post.title)
@@ -21,8 +21,6 @@ struct PostCreateView: View {
                     let encoded = try? encoder.encode(post);
 
                     Storage.storage().reference().child("posts/\(uid)/\(post.uuid)").putData(encoded!);
-            
-        
                 }label:{Text("Post")}
             }
         }

@@ -50,7 +50,7 @@ struct PostListView: View {
                 
             }
         }.task{
-            
+            posts.removeAll()
             Storage.storage().reference().child("posts").list(maxResults:16){(result,error) in
                 if let error = error {
                     print(error.localizedDescription)
@@ -68,11 +68,10 @@ struct PostListView: View {
                                 }else{
                                     guard let p = try? decoder.decode(Post.self, from: result!)
                                     else{
-                                        print("error");                                      return;
+                                        print("error");
+                                        return;
                                     }
-            
-                                            posts.append(p)
-
+                                    posts.append(p)
 
                                 }
 
