@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseStorage
 import FirebaseAuth
 struct PostCreateView: View {
-    @State var post:Post = Post()
+    @State var post:Post = Post(user: getCurrentUser())
     @State var showAlert: Bool = false
     var body: some View {
         VStack{
@@ -24,8 +24,6 @@ struct PostCreateView: View {
                     let encoded = try? encoder.encode(post);
 
                     Storage.storage().reference().child("posts/\(uid)/\(post.uuid)").putData(encoded!);
-            
-        
                 }label:{Text("Post")}
             }.alert(isPresented: $showAlert) {
                 Alert(
@@ -37,15 +35,8 @@ struct PostCreateView: View {
             Spacer()
         }
         .navigationBarTitle(Text("Create Post"), displayMode: .inline)
-        .padding()
-    }
 }
            
-            
-        
-    
-
-
 struct PostCreateView_Previews: PreviewProvider {
     static var previews: some View {
         PostCreateView()

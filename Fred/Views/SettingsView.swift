@@ -9,20 +9,25 @@ import SwiftUI
 import FirebaseAuth
 struct SettingsView: View {
     @State var user:User = getCurrentUser()
+    @Binding var logged:Bool
     var body: some View {
         VStack{
         Text(user.email)
-        TextField("Username",text: $user.username).onSubmit{
+            VStack{
+                Text("Username")
+                TextField("Username",text: $user.username).onSubmit{
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
             changeRequest?.displayName = user.username
             changeRequest?.commitChanges { error in
                 if error != nil{
                     print(error?.localizedDescription)
                 }
+                print(user.username)
             }
-        }
+        }}
             Button{
                 try? Auth.auth().signOut()
+                logged = false
                 
             }label:{Text("sign out")}
         }
@@ -31,6 +36,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(logged:Binding.constant(false))
     }
 }

@@ -10,14 +10,15 @@ import FirebaseStorage
 import FirebaseAuth
 
 struct PostView: View {
-    var post:Post
+    let post:Post
     var body: some View {
+        let author:User = User(uid: post.author)
         VStack(alignment: .leading) {
-                             HStack {
-                                 Image("profile-picture").resizable().scaledToFit().frame(width: 40, height: 40).clipShape(Circle())
-                                 Text(post.author.username).font(.subheadline) .fontWeight(.bold)
+            HStack {
+                Image("profile-picture").resizable().scaledToFit().frame(width: 40, height: 40).clipShape(Circle())
+                Text(author.username).font(.subheadline) .fontWeight(.bold)
                                  
-                             }.padding(.bottom, 8)
+            }.padding(.bottom, 8)
                                 
             Text(post.title).font(.title3).fontWeight(.bold)
             Text(post.description).font(.subheadline).foregroundColor(.gray).padding(.bottom, 8)
@@ -47,6 +48,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post:Post())
+        PostView(post:Post(user: getCurrentUser()))
     }
 }
