@@ -32,17 +32,11 @@ struct PostCreateView: View {
                         }
                     }
                 }label:{Text("Post")}
-            }.alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("Success"),
-                    message: Text("Your post has been created."),
-                    dismissButton: .default(Text("OK"))
-                )
             }
             Spacer()
-        }.navigationBarTitle(Text("Create Post"), displayMode: .inline)
+        }.navigationBarTitle(Text("Create Post"))
         .alert(isPresented: $posted) {
-            Alert(title:Text("Posted"), message: Text("You posted"),dismissButton: .default(Text("Ok")){
+            Alert(title: Text("Success"), message: Text("Your post has been created."),dismissButton: .default(Text("Ok")){
                 post = Post(user:post.author)
             })
         }
