@@ -8,18 +8,18 @@
 import SwiftUI
 import FirebaseAuth
 struct ContentView: View {
-    @State var logged = Auth.auth().currentUser != nil
+    @State var uid:String? = Auth.auth().currentUser?.uid
     var body: some View {
-        if(!logged){
+        if (uid == nil){
             NavigationView{
                 VStack{
                 NavigationLink{
-                    SignUp(logged: $logged)
+                    SignUp(uid:$uid)
                 }label:{
                     Text("Sign Up")
                 }
                 NavigationLink{
-                    SignIn(logged: $logged)
+                    SignIn(uid:$uid)
                 }label:{
                     Text("Sign In")
                 }
@@ -27,15 +27,16 @@ struct ContentView: View {
                 }
             }
         }else{
+            
             TabView{
-                PostCreateView().tabItem{
+                PostCreateView(post:Post(uid: uid!)).tabItem{
                     Label("Post", systemImage: "doc")
                 }
                 PostListView().tabItem{
-                    Label("Feed", systemImage: "doc.text")
+                    Label("Feed", systemImage: "tray.full")
                 }
-                SettingsView(logged: $logged).tabItem{
-                    Label("Settings",systemImage: "settings")
+                SettingsView(uid:$uid).tabItem{
+                    Label("Settings",systemImage: "person.crop.circle")
                 }
             }
         }

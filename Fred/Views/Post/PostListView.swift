@@ -39,62 +39,57 @@ struct PostListView: View {
 //                }
 //            }
             NavigationView{
-                List(posts){post in
-
+                List(posts)
+    {post in
                     NavigationLink{
                         PostDetailView(post: post)
+    
+    
                     }label:{
                         PostView(post: post)
+                    
+                        
                     }
+                    
             }
+                
                 
             }
         }.task{
             posts.removeAll()
+            print("fetching posts")
             Storage.storage().reference().child("posts").list(maxResults:16){(result,error) in
                 if let error = error {
                     print(error.localizedDescription)
                 }else{
                     let decoder = JSONDecoder()
+                print("decoding posts")
+                for pfx in result!.prefixes {
 
-                for prefix in result!.prefixes {
-                    print(prefix.fullPath)
-                    prefix.list(maxResults:64){(result,error) in
-                        for item in result!.items {
-                            item.getData(maxSize: Int64.max){
-                                (result,error)in
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                }else{
-                                    guard let p = try? decoder.decode(Post.self, from: result!)
-                                    else{
-                                        print("error");
-                                        return;
+                    User.get(uid:pfx.name){
+                        user in
+                        pfx.list(maxResults:64){(result,error) in
+                            for item in result!.items {
+                                item.getData(maxSize: Int64.max){
+                                    (result,error)in
+                                    if let error = error {
+                                        print(error.localizedDescription)
+                                    }else{
+                                        guard let p = try? decoder.decode(Post.self, from: result!)
+                                        else{
+                                            print("error");
+                                            return;
+                                        }
+                                        p.author = user
+                                        posts.append(p)
+                                        print("decoded post")
                                     }
-                                    posts.append(p)
-
-                                }
 
                             }
-                    }
-                    // The prefixes under storageReference.
-                    // You may call listAll(completion:) recursively on them.
-                  }
-                for item in result!.items {
-                    item.getData(maxSize: Int64.max){(result,error)in
-                        if let error = error {
-                            print(error.localizedDescription)
-                        }else{
-                            let p = try? decoder.decode(Post.self, from: result!);
-                            posts.append(p!)
-
-
                         }
-
+                        }
                     }
-                    // The items under storageReference.
                     
-                        }
                     }
                     
                 }
