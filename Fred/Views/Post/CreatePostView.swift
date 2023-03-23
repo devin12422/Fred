@@ -33,8 +33,8 @@ struct PostCreateView: View {
                 )
             }
             Spacer()
-        }
-        .navigationBarTitle(Text("Create Post"), displayMode: .inline)
+        }.navigationBarTitle(Text("Create Post"), displayMode: .inline)
+    }
 }
            
 struct PostCreateView_Previews: PreviewProvider {

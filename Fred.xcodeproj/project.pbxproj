@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F4A8C5829CA0E9100E8B565 /* CommentSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4A8C5729CA0E9100E8B565 /* CommentSectionView.swift */; };
+		3F4A8C5A29CA0ED100E8B565 /* CommentSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4A8C5929CA0ED100E8B565 /* CommentSectionView.swift */; };
+		3F4A8C5C29CA0F5A00E8B565 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4A8C5B29CA0F5A00E8B565 /* Comment.swift */; };
 		619C437529B26B12006CDCF2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437429B26B12006CDCF2 /* SettingsView.swift */; };
 		619C437829B27095006CDCF2 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437729B27095006CDCF2 /* CreatePostView.swift */; };
 		619C437A29B270CC006CDCF2 /* PostListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619C437929B270CC006CDCF2 /* PostListView.swift */; };
@@ -27,7 +30,9 @@
 /* Begin PBXFileReference section */
 		1A83953AD007F1D22FC64386 /* Pods-Fred.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fred.release.xcconfig"; path = "Target Support Files/Pods-Fred/Pods-Fred.release.xcconfig"; sourceTree = "<group>"; };
 		3B6BB917B72B45160C7CC0BE /* Pods-Fred.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fred.debug.xcconfig"; path = "Target Support Files/Pods-Fred/Pods-Fred.debug.xcconfig"; sourceTree = "<group>"; };
-		3F72C5A929BA581300AAE594 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3F4A8C5729CA0E9100E8B565 /* CommentSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSectionView.swift; sourceTree = "<group>"; };
+		3F4A8C5929CA0ED100E8B565 /* CommentSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSectionView.swift; sourceTree = "<group>"; };
+		3F4A8C5B29CA0F5A00E8B565 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		619C437429B26B12006CDCF2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		619C437729B27095006CDCF2 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		619C437929B270CC006CDCF2 /* PostListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListView.swift; sourceTree = "<group>"; };
@@ -72,6 +77,8 @@
 			children = (
 				61EF2C9C29AD3A1600429194 /* PostView.swift */,
 				619C437729B27095006CDCF2 /* CreatePostView.swift */,
+				3F4A8C5929CA0ED100E8B565 /* CommentSectionView.swift */,
+				3F4A8C5B29CA0F5A00E8B565 /* Comment.swift */,
 				619C437929B270CC006CDCF2 /* PostListView.swift */,
 				619C437B29B271A4006CDCF2 /* PostDetailView.swift */,
 			);
@@ -81,6 +88,7 @@
 		61BC227129AD25B8004200F9 = {
 			isa = PBXGroup;
 			children = (
+				3F4A8C5729CA0E9100E8B565 /* CommentSectionView.swift */,
 				61BC227C29AD25B9004200F9 /* Fred */,
 				61BC227B29AD25B9004200F9 /* Products */,
 				110CE387A8640AB2375A83C9 /* Pods */,
@@ -271,6 +279,8 @@
 			files = (
 				619C437C29B271A4006CDCF2 /* PostDetailView.swift in Sources */,
 				61EF2C9D29AD3A1600429194 /* PostView.swift in Sources */,
+				3F4A8C5829CA0E9100E8B565 /* CommentSectionView.swift in Sources */,
+				3F4A8C5C29CA0F5A00E8B565 /* Comment.swift in Sources */,
 				619C437529B26B12006CDCF2 /* SettingsView.swift in Sources */,
 				61BC228029AD25B9004200F9 /* ContentView.swift in Sources */,
 				61EF2C9B29AD38CD00429194 /* SignIn.swift in Sources */,
@@ -279,6 +289,7 @@
 				619C437829B27095006CDCF2 /* CreatePostView.swift in Sources */,
 				61BC227E29AD25B9004200F9 /* FredApp.swift in Sources */,
 				61BC228E29AD2EE2004200F9 /* User.swift in Sources */,
+				3F4A8C5A29CA0ED100E8B565 /* CommentSectionView.swift in Sources */,
 				61BC229029AD2EED004200F9 /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

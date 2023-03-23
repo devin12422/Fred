@@ -17,9 +17,9 @@ struct SignIn: View {
         VStack{
             TextField("Email", text: $email).padding()
             SecureField("Password",text: $password).padding()
-            if let message = errorMessage {
-    Text(message).foregroundColor(.red).padding()
-            }
+//        if let message = errorMessage {
+//    Text(message).foregroundColor(.red).padding()
+//            }
 //            Button{}label:{Text("Forgot Password")}
             Button{
                 if(!loading){
@@ -49,4 +49,4 @@ struct SignIn_Previews: PreviewProvider {
         SignIn(logged:Binding.constant(false))
     }
 }
-}
+
