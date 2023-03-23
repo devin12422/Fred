@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 class Instruction:Codable,Identifiable{
     var string:String;
     var uuid = UUID();
@@ -14,19 +15,21 @@ class Post:Codable,Identifiable{
     var title:String;
     var description:String;
     var instructions:[Instruction];
-    var author:String;
+    var author:User;
     let uuid = UUID();
     init(title:String,description:String,author:User,instructions:[Instruction]){
         self.title = title
         self.description = description
         self.instructions = instructions
-        self.author = author.uid
+        self.author = author
+        self.author.get()
     }
-    init(user:User){
-        self.title = "\(user.username)'s Recipe"
-        self.description = "A recipe created by \(user.username)"
-        self.instructions = []
-        self.author = user.uid
+    convenience init(user:User){
+        self.init(title:"New Recipe",description:"A recipe",author:user,instructions:[])
+    }
+    convenience init(uid:String){
+        var user = User(uid: uid)
+        self.init(user:user)
     }
     func isComplete() -> Bool{
         return !title.isEmpty && !description.isEmpty
