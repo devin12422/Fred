@@ -9,17 +9,17 @@ import SwiftUI
 
 
 struct PostDetailView: View {
-    let post:Post
+    let post:PostWrapper
     var body: some View {
         VStack{
-            Text(post.title)
+            Text(post.post.title)
             NavigationLink{
                 UserDetailView(user: post.author)
             }label:{
                 UserView(user:post.author)
             }
-            Text(post.description)
-            List(post.instructions){instruction in
+            Text(post.post.description)
+            List(post.post.instructions){instruction in
                 Text(instruction.string)
             }
         }
@@ -28,6 +28,6 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(post: Post(uid:""))
+        PostDetailView(post: PostWrapper(post: Post(), author: User()))
     }
 }

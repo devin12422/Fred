@@ -19,6 +19,7 @@ struct PostCreateView: View {
             TextField("Description",text: $post.description)
             HStack{
                 Button{
+                    if(post.isComplete()){
                     guard let uid = Auth.auth().currentUser?.uid else{return}
                     let encoder = JSONEncoder();
                     let encoded = try? encoder.encode(post);
@@ -30,12 +31,14 @@ struct PostCreateView: View {
                             print(error!.localizedDescription)
                         }
                     }
+                        
+                    }
                 }label:{Text("Post")}
             }
         }
         .alert(isPresented: $posted) {
             Alert(title: Text("Success"), message: Text("Your post has been created."),dismissButton: .default(Text("Ok")){
-                post = Post(user:post.author)
+                post = Post()
             })
         }
     }

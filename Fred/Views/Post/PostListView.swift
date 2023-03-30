@@ -15,7 +15,7 @@ enum FeedState{
     case Error
 }
 struct PostListView: View {
-    @State var posts:[Post] = [];
+    @State var posts:[PostWrapper] = [];
     @State var feed_state:FeedState = .Loading
     @State var page_token:String = ""
     var body: some View {
@@ -69,8 +69,7 @@ struct PostListView: View {
                                                 feed_state = .Error
                                                 return;
                                             }
-                                            p.author = user
-                                            posts.append(p)
+                                            posts.append(PostWrapper(post:p,author: user))
                                         }
                                     }
                                 }
