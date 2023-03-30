@@ -6,15 +6,28 @@
 //
 
 import SwiftUI
+//enum UserViewState: String, CaseIterable, Identifiable {
+//    case description, recipes, following
+//    var id: Self { self }
+//}
 
 struct UserDetailView: View {
     var user:User
+    //@State private var view_state:UserViewState = .description
     var body: some View {
         VStack{
-            UserView(user: user)
+//            UserView(user: user)
+//            Picker("", selection: $view_state) {
+//                ForEach(UserViewState.allCases) { state in
+//                    Text(view_state.rawValue.capitalized)
+//                }
+//            }.pickerStyle(.wheel)
             Text("Details")
         }
+            
+        
     }
+    
 }
 
 struct UserDetailView_Previews: PreviewProvider {

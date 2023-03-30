@@ -25,11 +25,13 @@ class Post:Codable,Identifiable{
         self.author.get()
     }
     convenience init(user:User){
-        self.init(title:"New Recipe",description:"A recipe",author:user,instructions:[])
+        self.init(title:"",description:"",author:user,instructions:[])
     }
     convenience init(uid:String){
-        var user = User(uid: uid)
-        self.init(user:user)
+        self.init(user:User(uid: uid))
+    }
+    convenience init(){
+        self.init(uid:Auth.auth().currentUser!.uid)
     }
     func isComplete() -> Bool{
         return !title.isEmpty && !description.isEmpty

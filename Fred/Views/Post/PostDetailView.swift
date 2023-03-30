@@ -14,9 +14,9 @@ struct PostDetailView: View {
         VStack{
             Text(post.title)
             NavigationLink{
-                
+                UserDetailView(user: post.author)
             }label:{
-            Text(post.author.username)
+                UserView(user:post.author)
             }
             Text(post.description)
             List(post.instructions){instruction in

@@ -39,7 +39,6 @@ class User:Codable,ObservableObject,Equatable, Hashable,Identifiable{
     }
     func get(){
         User.get(uid:self.uid,completion:copyTo);
-        print("test")
     }
     func get_async() async throws{
         self.copyTo(from: await try User.get_async(uid: uid))

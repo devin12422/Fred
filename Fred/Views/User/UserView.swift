@@ -11,7 +11,7 @@ struct UserView: View {
     var user:User
     var body: some View {
         HStack {
-            Image(uiImage:UIImage(data:user.image)!).resizable().scaledToFit().frame(width: 40, height: 40).clipShape(Circle())
+            Image(uiImage:UIImage(data:user.image)!).resizable().frame(width: 40, height: 40).clipShape(Circle())
             Text(user.username).font(.subheadline) .fontWeight(.bold)
                              
         }.padding(.bottom, 8)

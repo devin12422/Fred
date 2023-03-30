@@ -9,92 +9,79 @@ import SwiftUI
 import SwiftUI
 import FirebaseStorage
 import FirebaseAuth
-enum MenuState:String, CaseIterable, Identifiable{
-    var id: Self { self }
-
-    case Feed
-    case Mine
-    case Search
+enum FeedState{
+    case Loading
+    case Loaded
+    case Error
 }
 struct PostListView: View {
     @State var posts:[Post] = [];
-    @State var menu_state:MenuState = .Mine
-    @State var search:String = ""
-
+    @State var feed_state:FeedState = .Loading
+    @State var page_token:String = ""
     var body: some View {
         VStack{
-//            HStack{
-//                Picker("Menu",selection:$menu_state){
-//                    ForEach(MenuState.allCases) { state in
-//                        Text(state.rawValue.capitalized)
-//                    }
-//                }.frame(maxWidth: 50).pickerStyle(.wheel)
-//                switch menu_state {
-//                case .Feed: Text("bruhd")
-//                    
-//                case .Mine:
-//                    Text("bruh")
-//                case .Search:
-//                    TextField("Search",text:$search)
-//                }
-//            }
-            NavigationView{
-                List(posts)
-    {post in
-                    NavigationLink{
-                        PostDetailView(post: post)
-    
-    
-                    }label:{
-                        PostView(post: post)
-                    
-                        
-                    }
-                    
-            }
-                
-                
-            }
-        }.task{
-            posts.removeAll()
-            print("fetching posts")
-            Storage.storage().reference().child("posts").list(maxResults:16){(result,error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                }else{
-                    let decoder = JSONDecoder()
-                print("decoding posts")
-                for pfx in result!.prefixes {
-
-                    User.get(uid:pfx.name){
-                        user in
-                        pfx.list(maxResults:64){(result,error) in
-                            for item in result!.items {
-                                item.getData(maxSize: Int64.max){
-                                    (result,error)in
-                                    if let error = error {
-                                        print(error.localizedDescription)
-                                    }else{
-                                        guard let p = try? decoder.decode(Post.self, from: result!)
-                                        else{
-                                            print("error");
-                                            return;
-                                        }
-                                        p.author = user
-                                        posts.append(p)
-                                        print("decoded post")
-                                    }
-
-                            }
-                        }
+            switch feed_state {
+            case .Error:
+                Text("An unknown error occurred")
+            default:
+                NavigationView{
+                    List(posts){post in
+                        NavigationLink{
+                            PostDetailView(post: post)
+                        }label:{
+                            PostView(post: post)
                         }
                     }
-                    
-                    }
-                    
                 }
             }
+        }.task{
+            if(feed_state == .Loading){
+                getPosts()
+            }
         }
+    }
+    func getPosts(){
+            print("fetching posts")
+            Storage.storage().reference().child("posts").list(maxResults:8,pageToken: page_token,completion:{(result,error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                    feed_state = .Error
+                }else{
+                    if result?.pageToken != .none{
+                        page_token = (result?.pageToken!)!
+                    }
+                    let decoder = JSONDecoder()
+                    print("decoding posts")
+                    for pfx in result!.prefixes {
+                        print(pfx.name)
+                        User.get(uid:pfx.name){user in
+                            pfx.list(maxResults:4){(result,error) in
+                                for item in result!.items {
+                                    item.getData(maxSize: Int64.max){
+                                        (result,error)in
+                                        if let error = error {
+                                            print(error.localizedDescription)
+                                            feed_state = .Error
+                                        }else{
+                                            guard let p = try? decoder.decode(Post.self, from: result!)
+                                            else{
+                                                print("error decoding post");
+                                                feed_state = .Error
+                                                return;
+                                            }
+                                            p.author = user
+                                            posts.append(p)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    
+                    }
+                    feed_state = .Loaded
+                    
+                }
+            })
     }
 }
 
