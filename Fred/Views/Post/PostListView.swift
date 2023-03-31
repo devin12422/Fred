@@ -14,7 +14,7 @@ enum FeedState{
     case Loaded
     case Error
 }
-struct PostListView: View {
+struct PostListView: View{
     @State var posts:[PostWrapper] = [];
     @State var feed_state:FeedState = .Loading
     @State var page_token:String = ""

@@ -22,7 +22,9 @@ struct ContentView: View {
     @State var view_stack:ViewStack = ViewStack()
     @State var view_state_index:Int = 1
     @State var radians:CGFloat = 0.0
-    let height_offset = UIScreen.main.bounds.width * 0.8 + UIScreen.main.bounds.height * 0.5;
+
+
+    let height_offset = UIScreen.main.bounds.width * 0.8 + UIScreen.main.bounds.height * 1;
     var body: some View {
         if (Auth.auth().currentUser?.uid == nil){
             NavigationView{
@@ -42,17 +44,21 @@ struct ContentView: View {
             
         }else{
             ZStack{
-            view_stack.stack.last?.layer[view_state_index].view
-            ZStack{
-                Circle().trim(from:0.65,to:0.85).frame(width:UIScreen.main.bounds.width * 2,height:UIScreen.main.bounds.width * 2).foregroundColor(Color.blue)
+                view_stack.stack.last?.layer[view_state_index].view.body
+                
+                ZStack{
+                    Circle().trim(from:0.65,to:0.85).frame(width:UIScreen.main.bounds.width * 2,height:UIScreen.main.bounds.width * 2).foregroundColor(Color.blue).clipShape(Circle())
                 ForEach(view_stack.stack){stack in
                     ForEach(stack.layer){
                         state in
-                        let index:CGFloat = getCenteredCircularIndex(layer: stack, state: state)//CGFloat(stack.layer.firstIndex(of: state)! + 1) / CGFloat(stack.layer.count + 1)
-                        Text("\(state.name) amd \(index)").rotationEffect(Angle(radians: Double(-radians))).offset(x:UIScreen.main.bounds.width * -1 * cos(index),y:UIScreen.main.bounds.width * -1 * sin(index))
+                        let index:CGFloat = getCenteredCircularIndex(layer: stack, state: state)
+                        let image:Image = state.image
+                        image.padding().background(Color.white).cornerRadius(32).rotationEffect(Angle(radians: Double(-radians))).offset(x:UIScreen.main.bounds.width * -1 * cos(index),y:UIScreen.main.bounds.width * -1 * sin(index))
                     }.rotationEffect((view_stack.stack.firstIndex(of:stack) == 0) ? Angle(radians:Double(radians)) : Angle(radians:0),anchor: UnitPoint.center)
-                }//.offset(y: -UIScreen.main.bounds.height*0.5)
-            }.gesture(DragGesture(minimumDistance: 0, coordinateSpace: CoordinateSpace.local).onChanged(onChanged(value:)).onEnded(onEnded(value:))).offset(y: height_offset)
+                }
+                    
+                }.gesture(DragGesture(minimumDistance: 0, coordinateSpace: CoordinateSpace.local).onChanged(onChanged(value:)).onEnded(onEnded(value:))).position(x:UIScreen.main.bounds.width / 2 ,y:height_offset)
+                
             }
             .task{
                 do{

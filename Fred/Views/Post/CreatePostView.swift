@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseStorage
 import FirebaseAuth
 struct PostCreateView: View {
-    @State var post:Post = Post()
+    @State var post:Post = Post(title: "tets", description: "", instructions: [])
     @State var posted = false
     var body: some View {
         VStack{

@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseStorage
 import AVFoundation
-struct SettingsView: View {
+struct SettingsView: View{
     @EnvironmentObject var user:User
     @State var image:UIImage = UIImage(systemName: "person.crop.circle.fill")!
     @State var bimage = false
