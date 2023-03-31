@@ -11,25 +11,26 @@ class Instruction:Codable,Identifiable{
     var string:String;
     var uuid = UUID();
 }
+class PostWrapper:Identifiable{
+    var post:Post
+    var author:User
+    init(post:Post,author:User){
+        self.post = post
+        self.author = author
+    }
+}
 class Post:Codable,Identifiable{
     var title:String;
     var description:String;
     var instructions:[Instruction];
-    var author:User;
     let uuid = UUID();
-    init(title:String,description:String,author:User,instructions:[Instruction]){
+    init(title:String,description:String,instructions:[Instruction]){
         self.title = title
         self.description = description
         self.instructions = instructions
-        self.author = author
-        self.author.get()
     }
-    convenience init(user:User){
-        self.init(title:"New Recipe",description:"A recipe",author:user,instructions:[])
-    }
-    convenience init(uid:String){
-        var user = User(uid: uid)
-        self.init(user:user)
+    convenience init(){
+        self.init(title:"",description:"",instructions:[])
     }
     func isComplete() -> Bool{
         return !title.isEmpty && !description.isEmpty

@@ -71,7 +71,7 @@ guard let user = Auth.auth().currentUser else {
             return
         }
         
-        let newComment = Comment(id: commentRef.name, user: user.uid, content: url.absoluteString, timestamp: commentData["timestamp"] as! TimeInterval, rating: commentData["rating"] as! Int)
+        let newComment = Comment(user: user.uid, content: url.absoluteString)
     
         commentsection.append(newComment)
         newCommentUser = ""

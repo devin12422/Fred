@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseStorage
 import FirebaseAuth
 struct PostCreateView: View {
-    @State var post:Post
+    @State var post:Post = Post(title: "tets", description: "", instructions: [])
     @State var posted = false
     var body: some View {
         VStack{
@@ -19,10 +19,10 @@ struct PostCreateView: View {
             TextField("Description",text: $post.description)
             HStack{
                 Button{
+                    if(post.isComplete()){
                     guard let uid = Auth.auth().currentUser?.uid else{return}
                     let encoder = JSONEncoder();
                     let encoded = try? encoder.encode(post);
-
                     Storage.storage().reference().child("posts/\(uid)/\(post.uuid)").putData(encoded!){
                         _, error in
                         if error == nil{
@@ -31,13 +31,14 @@ struct PostCreateView: View {
                             print(error!.localizedDescription)
                         }
                     }
+                        
+                    }
                 }label:{Text("Post")}
             }
-            Spacer()
-        }.navigationBarTitle(Text("Create Post"))
+        }
         .alert(isPresented: $posted) {
             Alert(title: Text("Success"), message: Text("Your post has been created."),dismissButton: .default(Text("Ok")){
-                post = Post(user:post.author)
+                post = Post()
             })
         }
     }
@@ -45,6 +46,6 @@ struct PostCreateView: View {
            
 struct PostCreateView_Previews: PreviewProvider {
     static var previews: some View {
-        PostCreateView(post:Post(uid:""))
+        PostCreateView()
     }
 }

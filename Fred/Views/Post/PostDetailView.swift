@@ -9,22 +9,22 @@ import SwiftUI
 
 
 struct PostDetailView: View {
-    let post:Post
     var comments: [Comment]
+    let post:PostWrapper
     var body: some View {
         VStack{
-            Text(post.title)
+            Text(post.post.title)
             NavigationLink{
-                
+                UserDetailView(user: post.author)
             }label:{
-            Text(post.author.username)
+                UserView(user:post.author)
             }
             NavigationLink(destination: CommentSectionView(commentsection: comments))
                 {
                 Text("Comments")
                 }
-            Text(post.description)
-            List(post.instructions){instruction in
+            Text(post.post.description)
+            List(post.post.instructions){instruction in
                 Text(instruction.string)
         Spacer()
         
@@ -35,6 +35,6 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(post: Post(uid:""), comments: [Comment]())
+        PostDetailView(comments:[], post: PostWrapper(post: Post(), author: User()))
     }
 }

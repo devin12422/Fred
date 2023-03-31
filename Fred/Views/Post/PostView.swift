@@ -10,14 +10,14 @@ import FirebaseStorage
 import FirebaseAuth
 
 struct PostView: View {
-    var post:Post
+    var post:PostWrapper
     var body: some View {
         VStack(alignment: .leading) {
             UserView(user:post.author)
                                 
-            Text(post.title).font(.title3).fontWeight(.bold)
-            Text(post.description).font(.subheadline).foregroundColor(.gray).padding(.bottom, 8)
-                             HStack {
+            Text(post.post.title).font(.title3).fontWeight(.bold)
+            Text(post.post.description).font(.subheadline).foregroundColor(.gray).padding(.bottom, 8)
+            HStack {
                                  Button {
                                  
                                  } label: {
@@ -26,7 +26,6 @@ struct PostView: View {
                                          Text("Like")
                                      }
                                  }
-                                 
                                  Button {
                                  
                                  } label: {
@@ -43,7 +42,7 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post:Post(uid:""))
+        PostView(post:PostWrapper(post:Post(),author:User()))
 
     }
 }
