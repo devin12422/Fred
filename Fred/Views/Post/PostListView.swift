@@ -20,6 +20,7 @@ struct PostListView: View {
     @State var posts:[Post] = [];
     @State var menu_state:MenuState = .Mine
     @State var search:String = ""
+    @State var commentsection: [Comment] = [];
 
     var body: some View {
         VStack{
@@ -42,7 +43,7 @@ struct PostListView: View {
                 List(posts)
     {post in
                     NavigationLink{
-                        PostDetailView(post: post)
+                        PostDetailView(post: post, comments: commentsection)
     
     
                     }label:{
@@ -100,7 +101,7 @@ struct PostListView: View {
 
 struct PostListView_Previews: PreviewProvider {
     static var previews: some View {
-        PostListView()
+        PostListView(commentsection: [Comment]())
     }
 }
 
