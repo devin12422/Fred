@@ -22,6 +22,9 @@ struct PostListView: View{
     @State var commentsection: [Comment] = [];
     var body: some View {
         VStack{
+            if(posts.count == 0 && feed_state == .Loading){
+                Text("Loading")
+            }
             switch feed_state {
             case .Error:
                 Text("An unknown error occurred")

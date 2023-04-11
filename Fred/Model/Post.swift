@@ -7,6 +7,11 @@
 
 import Foundation
 import FirebaseAuth
+//protocol TagEnum{
+//    func allCases<T:TagEnum>(case:T){
+//        T.
+//    }
+//}
 class Instruction:Codable,Identifiable{
     var string:String;
     var uuid = UUID();
@@ -24,13 +29,15 @@ class Post:Codable,Identifiable{
     var description:String;
     var instructions:[Instruction];
     let uuid = UUID();
-    init(title:String,description:String,instructions:[Instruction]){
+    var tags:[Tags];
+    init(title:String,description:String,instructions:[Instruction],tags:[Tags]){
         self.title = title
         self.description = description
         self.instructions = instructions
+        self.tags = tags
     }
     convenience init(){
-        self.init(title:"",description:"",instructions:[])
+        self.init(title:"",description:"",instructions:[],tags:[])
     }
     func isComplete() -> Bool{
         return !title.isEmpty && !description.isEmpty

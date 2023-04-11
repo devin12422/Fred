@@ -23,7 +23,15 @@ struct PostDetailView: View {
                 {
                 Text("Comments")
                 }
+            ScrollView(.horizontal){
+                HStack{
+                    ForEach(post.post.tags){tag in
+                        Text(String(describing:tag))
+                    }
+                }
+            }
             Text(post.post.description)
+            
             List(post.post.instructions){instruction in
                 Text(instruction.string)
         Spacer()
