@@ -60,15 +60,15 @@ struct PostListView: View{
                     for pfx in result!.prefixes {
                         print(pfx.name)
                         User.get(uid:pfx.name){user in
-                            pfx.list(maxResults:4){(result,error) in
-                                for item in result!.items {
-                                    item.getData(maxSize: Int64.max){
-                                        (result,error)in
+                            pfx.list(maxResults:4){(post_list_data,error) in
+                                for item in post_list_data!.prefixes {
+                                    item.child("post").getData(maxSize: Int64.max){
+                                        (post_data,error)in
                                         if let error = error {
                                             print(error.localizedDescription)
                                             feed_state = .Error
                                         }else{
-                                            guard let p = try? decoder.decode(Post.self, from: result!)
+                                            guard let p = try? decoder.decode(Post.self, from: post_data!)
                                             else{
                                                 print("error decoding post");
                                                 feed_state = .Error

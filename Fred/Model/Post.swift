@@ -28,13 +28,16 @@ class Post:Codable,Identifiable{
     var title:String;
     var description:String;
     var instructions:[Instruction];
-    let uuid = UUID();
-    var tags:[Tags];
-    init(title:String,description:String,instructions:[Instruction],tags:[Tags]){
+    let uuid:UUID;
+    var tags:Set<TagInstance>
+    
+    init(title:String,description:String,instructions:[Instruction],tags:Set<TagInstance>){
+
         self.title = title
         self.description = description
         self.instructions = instructions
         self.tags = tags
+        self.uuid = UUID()
     }
     convenience init(){
         self.init(title:"",description:"",instructions:[],tags:[])

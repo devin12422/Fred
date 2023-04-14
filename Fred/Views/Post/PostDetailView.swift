@@ -19,24 +19,21 @@ struct PostDetailView: View {
             }label:{
                 UserView(user:post.author)
             }
-            NavigationLink(destination: CommentSectionView(commentsection: comments))
-                {
+            NavigationLink(destination: CommentSectionView(post: post)){
                 Text("Comments")
-                }
-            ScrollView(.horizontal){
-                HStack{
-                    ForEach(post.post.tags){tag in
-                        Text(String(describing:tag))
-                    }
-                }
             }
+            ScrollView(.horizontal){
+                HStack{ForEach(post.post.tags.shuffled(),id:\.self.tag){tag in
+                    Text(tag.tag)
+                }
+                }}
             Text(post.post.description)
             
             List(post.post.instructions){instruction in
                 Text(instruction.string)
-        Spacer()
-        
-                }
+                Spacer()
+                
+            }
         }
     }
 }

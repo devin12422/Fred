@@ -12,6 +12,9 @@ class FredDelegate :NSObject, UIApplicationDelegate{
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        TagType(name:"Meal",cases:["Breakfast","Lunch","Dinner"],isUnique: true)
+        TagType(name:"Ethnicity",cases:["Italian","French","American","Hispanic"],isUnique: true)
+        TagType(name:"Restrictions",cases:["Vegan","Vegetarian","Gluten Free"],isUnique: false)
         return true
     }
 }

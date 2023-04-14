@@ -23,7 +23,8 @@ struct PostCreateView: View {
                 }
                 ScrollView(.horizontal){
 //                $post.tags.forEach()
-                    HStack{tag_view
+                    HStack{
+                        tag_view
                     Button{
                         tag_is_showing.toggle()
                     }label:{
@@ -44,7 +45,7 @@ struct PostCreateView: View {
                     guard let uid = Auth.auth().currentUser?.uid else{return}
                     let encoder = JSONEncoder();
                     let encoded = try? encoder.encode(post);
-                    Storage.storage().reference().child("posts/\(uid)/\(post.uuid)").putData(encoded!){
+                    Storage.storage().reference().child("posts/\(uid)/\(post.uuid)/post").putData(encoded!){
                         _, error in
                         if error == nil{
                             posted = true
@@ -57,14 +58,27 @@ struct PostCreateView: View {
                 }label:{Text("Post")}
             }
         }.sheet(isPresented: $tag_is_showing){
-            List(getTagList()){tag in
-            Button{
-                post.tags.append(tag)
-                tag_view = AnyView(generateTagView())
-                tag_is_showing.toggle()
-            }label:{Text(tag.string)
-
-            }
+            ScrollView{
+                ForEach(getTagTypes().shuffled()){type in
+                    VStack{
+                        Text(type.name)
+                        ScrollView(.horizontal){
+                            HStack{
+                                ForEach(type.cases.shuffled(),id:\.self){ instance in
+                                    Button{
+                                        post.tags.insert(instance)
+                                        tag_is_showing.toggle()
+                                        tag_view = AnyView(generateTagView())
+                                    }label:{
+                                        Text(instance.tag)
+                                
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                }
             }
             
         }
@@ -72,33 +86,27 @@ struct PostCreateView: View {
             tag_view = AnyView(EmptyView())
             post = Post()})}
         }
-    func getTagList() -> [Tags]{
-        var return_tags:[Tags] = []
-        Tags.allCases.forEach{ tag in
-            var t = false
-            post.tags.forEach{owned_tag in
-                if(tag.isSameCase(as: owned_tag)){
-                    t = true
-                }
+    func getTagTypes() -> Set<TagType> {
+        var existing_types:Set<TagType> = []
+        for tag in post.tags{
+            if(tag.tag_type.isUnique){
+                existing_types.insert(tag.tag_type)
+                print(tag.tag_type.id)
             }
-            if(!t){
-                return_tags.append(tag)
-            }
+            
         }
-        return return_tags
+        print(TagType.ALL_TAGS.subtracting(existing_types))
+        return TagType.ALL_TAGS.subtracting(existing_types)
     }
     func generateTagView() -> some View{
-        return HStack{
-            ForEach(post.tags){tag in
+        return ForEach(post.tags.shuffled(),id:\.self.tag){tag in
+                VStack{
             Button{
-                if let index = post.tags.firstIndex(of: tag){
-                    post.tags.remove(at:index)
+                    post.tags.remove(tag)
                     tag_view = AnyView(generateTagView())
-                }
-            }label:{Text(tag.string)}
+            }label:{Text(tag.tag)}}
         }
         }
-    }
     }
 struct PostCreateView_Previews: PreviewProvider {
     static var previews: some View {

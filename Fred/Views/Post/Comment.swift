@@ -7,8 +7,13 @@
 
 import Foundation
 
-struct Comment: Identifiable {
+struct Comment: Identifiable,Codable {
     let id = UUID()
-    let user: String
+    let user_id: String
     let content: String
+}
+struct CommentWrapper:Identifiable{
+    let comment:Comment
+    var user:User
+    var id:UUID{get{return comment.id}}
 }
