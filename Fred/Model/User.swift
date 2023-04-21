@@ -19,9 +19,10 @@ class User:Codable,ObservableObject,Equatable, Hashable,Identifiable{
     }
     var username:String
     var email:String
-    var uid:String
+    var uid:String?
+    // Consider making this optional and removing uid observable environment variable
     var image:Data
-    init(email:String = "",username:String? = .none,uid:String = "",image:UIImage = UIImage(systemName: "person.crop.circle")!){
+    init(email:String = "",username:String? = .none,uid:String? = .none,image:UIImage = UIImage(systemName: "person.crop.circle")!){
         self.email = email;
         if(username != nil){
             self.username = username!;
@@ -38,13 +39,13 @@ class User:Codable,ObservableObject,Equatable, Hashable,Identifiable{
         self.image = from.image
     }
     func get(){
-        User.get(uid:self.uid,completion:copyTo);
+        User.get(uid:self.uid!,completion:copyTo);
     }
     func get_async() async throws{
-        self.copyTo(from: await try User.get_async(uid: uid))
+        self.copyTo(from: await try User.get_async(uid: uid!))
     }
     static func get(uid:String,completion:@escaping (User)->Void) {
-        Storage.storage().reference(withPath:"users/\(uid)").getData(maxSize: INT64_MAX){
+        Storage.storage().reference(withPath:"users/\(uid)/user").getData(maxSize: INT64_MAX){
             data, error in
             if(error == nil){
                 let decoder = JSONDecoder();
@@ -58,7 +59,7 @@ class User:Codable,ObservableObject,Equatable, Hashable,Identifiable{
     static func get_async(uid:String) async throws-> User {
         return await try withCheckedThrowingContinuation{
             continuation in
-            Storage.storage().reference(withPath:"users/\(uid)").getData(maxSize: INT64_MAX){
+            Storage.storage().reference(withPath:"users/\(uid)/user").getData(maxSize: INT64_MAX){
                 data, error in
                 if(error == nil){
                     let decoder = JSONDecoder();
@@ -74,6 +75,6 @@ class User:Codable,ObservableObject,Equatable, Hashable,Identifiable{
     func send(){
         let encoder = JSONEncoder();
         let encoded = try? encoder.encode(self);
-        Storage.storage().reference().child("users/\(self.uid)").putData(encoded!);
+        Storage.storage().reference().child("users/\(self.uid)/user").putData(encoded!);
     }
 }

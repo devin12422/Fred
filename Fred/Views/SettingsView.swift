@@ -32,6 +32,8 @@ struct SettingsView: View{
             }
             Button{
                 try? Auth.auth().signOut()
+                user.uid = .none
+                
             }label:{Text("sign out")}
         }.sheet(isPresented:$bimage){
             let maxSize = CGSize(width: 128, height: 128)

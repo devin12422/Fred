@@ -12,80 +12,103 @@ struct FlippedUpsideDown: ViewModifier {   func body(content: Content) -> some V
 extension View{   func flippedUpsideDown() -> some View{     self.modifier(FlippedUpsideDown())   }
 }
 struct CommentSectionView: View {
-    var post:PostWrapper
-    @State var comments: [CommentWrapper] = []
-    @State var comment_content: String = ""
-    @State var page_token:String = ""
+    var post:CodableWrapper<Post>
+    @State var comments: [CodableWrapper<Comment>] = []
+    @State var comment:Comment = Comment()
     
+    @State var page_token:String = ""
+    @State var can_comment = false
+    @State var comment_loading = false
     @State var posted = false
     var body: some View {
         VStack(alignment: .leading){
             ScrollView{
-                VStack(alignment: .leading) {
-                    TextField("Comment", text: $comment_content)
-                    Button {
-                        addComment()
-                    } label: {
-                        ZStack {
-                            Rectangle().cornerRadius(45).frame(width: 100, height: 50)
-                            Text("Submit").foregroundColor(.white)
-                        }
-                    }
-                    
-                }.flippedUpsideDown()
-                ForEach(comments ) { comment in
+                if(can_comment){
                     VStack(alignment: .leading) {
-                        UserView(user:comment.user)
-                        Text(comment.comment.content).font(.body)
-                        Divider()
-                    }.flippedUpsideDown()}
-                
-            }.flippedUpsideDown().padding()
-        }.padding().alert(isPresented: $posted) {Alert(title: Text("Success"), message: Text("Your comment has been posted."),dismissButton: .default(Text("Ok")){
-            comment_content = ""})}.task{
-                Storage.storage().reference(withPath: "posts/\(post.author.uid)/\(post.post.uuid)/comments/").list(maxResults:8,pageToken: page_token){(result,error) in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }else{
-                        if result?.pageToken != .none{
-                            page_token = (result?.pageToken!)!
-                        }
-                        let decoder = JSONDecoder()
-                        print("decoding comments")
-                        for item in result!.items {
-                            item.getData(maxSize: Int64.max){
-                                (result,error)in
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                }else{
-                                    guard let comment = try? decoder.decode(Comment.self, from: result!)else{
-                                        print("error decoding post");
-                                        return;
-                                    }
-                                    User.get(uid: comment.user_id) { user in
-                                        comments.append(CommentWrapper(comment:comment,user:user))
-                                        
-                                    }
-                                    
-                                }
+                        HStack{Picker("Rating", selection: $comment.rating){
+                            Image(systemName: "star.fill").tag(1)
+                            Image(systemName: comment.rating >= 2 ? "star.fill" : "star").tag(2)
+                            Image(systemName: comment.rating >= 3 ? "star.fill" : "star").tag(3)
+                            Image(systemName: comment.rating >= 4 ? "star.fill" : "star").tag(4)
+                            Image(systemName: comment.rating >= 5 ? "star.fill" : "star").tag(5)
+                        }.pickerStyle(.segmented)}
+                        TextField("Review", text: $comment.content)
+                        Button {
+                            addComment()
+                        } label: {
+                            ZStack {
+                                Rectangle().cornerRadius(45).frame(width: 100, height: 50)
+                                Text("Post").foregroundColor(.white)
                             }
-                        }
-                    }
-                }
+                        }.disabled(comment_loading)
+                        
+                    }}
+                ListView<Comment>(path: "posts/\(post.author.uid!)/\(post.wrapped.uuid)/comments", max_results_from_same_user: 2)
+                
+            }.padding()
+        }.padding().alert(isPresented: $posted) {Alert(title: Text("Success"), message: Text("Your review has been posted."),dismissButton: .default(Text("Ok")){
+            comment = Comment()})}.task{
+                can_comment = try! await canComment()
             }
     }
+    func canComment() async throws-> Bool {
+        return await try withCheckedThrowingContinuation{
+            continuation in
+            guard let uid = Auth.auth().currentUser?.uid else{return}
+            Storage.storage().reference(withPath:"users/\(uid)/comments/\(post.wrapped.uuid)/item").downloadURL{
+                data, error in
+                if(error == nil){
+                    continuation.resume(returning:false);
+                }else{
+                    continuation.resume(returning: true)
+                }
+                
+            }
+        }
+    }
     func addComment() {
+        if(comment.content.isEmpty){
+            return
+        }
         guard let uid = Auth.auth().currentUser?.uid else{return}
-        let comment = Comment(user_id: uid, content: comment_content)
         let encoder = JSONEncoder();
         let encoded = (try? encoder.encode(comment))!;
-        Storage.storage().reference(withPath:"posts/\(post.author.uid)/\(post.post.uuid)/comments/\(comment.id)").putData(encoded){  data,error in
+        comment_loading = true
+        
+        Storage.storage().reference(withPath:"posts/\(post.author.uid!)/\(post.wrapped.uuid)/comments/\(uid)/comment/item").putData(encoded){  data,error in
             if error == nil{
-                posted = true
+                Storage.storage().reference(withPath:"users/\(uid)/comments/\(post.wrapped.uuid)/item").putData(encoded){  data,error in
+                    if error == nil{
+                        Task {
+                            
+                            let count = try await Storage.storage().reference(withPath:"posts/\(post.author.uid!)/\(post.wrapped.uuid)/comments").listAll().prefixes.count
+                            post.wrapped.rating = (post.wrapped.rating + comment.rating) /  max(count - 1,1) * count
+                            let encoded_post = (try? encoder.encode(post.wrapped))!
+                            Storage.storage().reference(withPath:"posts/\(post.author.uid!)/\(post.wrapped.uuid)/item").putData(encoded_post){  data,error in
+                                if error == nil{
+                                    posted = true
+                                    can_comment = false
+                                    comment_loading = false
+                                }else{
+                                    comment_loading = false
+                                    
+                                    print(error!.localizedDescription)
+                                }}
+                        }
+                        
+                    }else{
+                        comment_loading = false
+                        
+                        print(error!.localizedDescription)
+                    }
+                }
             }else{
+                
+                comment_loading = false
                 print(error!.localizedDescription)
             }
         }
+        
     }}
 
 
@@ -93,6 +116,6 @@ struct CommentSectionView: View {
 
 struct CommentSectionView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentSectionView(post:PostWrapper(post: Post(), author: User()))
+        CommentSectionView(post:CodableWrapper<Post>(wrapped: Post(), author: User()))
     }
 }

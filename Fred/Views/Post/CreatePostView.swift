@@ -13,6 +13,7 @@ struct PostCreateView: View {
     @State var post:Post = Post()
     @State var tag_view: AnyView = AnyView(EmptyView())
     @State var posted = false
+    @State var loading = false
     @State var tag_is_showing  = false
     var body: some View {
         VStack{
@@ -41,14 +42,16 @@ struct PostCreateView: View {
             }
             HStack{
                 Button{
-                    if(post.isComplete()){
+                    if(post.isComplete() && !loading){
+                        loading = true
                     guard let uid = Auth.auth().currentUser?.uid else{return}
                     let encoder = JSONEncoder();
                     let encoded = try? encoder.encode(post);
-                    Storage.storage().reference().child("posts/\(uid)/\(post.uuid)/post").putData(encoded!){
+                    Storage.storage().reference().child("posts/\(uid)/\(post.uuid)/item").putData(encoded!){
                         _, error in
                         if error == nil{
                             posted = true
+                            loading = false
                         }else{
                             print(error!.localizedDescription)
                         }
@@ -91,11 +94,11 @@ struct PostCreateView: View {
         for tag in post.tags{
             if(tag.tag_type.isUnique){
                 existing_types.insert(tag.tag_type)
-                print(tag.tag_type.id)
+               // print(tag.tag_type.id)
             }
             
         }
-        print(TagType.ALL_TAGS.subtracting(existing_types))
+//        print(TagType.ALL_TAGS.subtracting(existing_types))
         return TagType.ALL_TAGS.subtracting(existing_types)
     }
     func generateTagView() -> some View{

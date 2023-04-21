@@ -7,32 +7,38 @@
 
 import SwiftUI
 
-
 struct PostDetailView: View {
-    var comments: [Comment]
-    let post:PostWrapper
+    let post:CodableWrapper<Post>
     var body: some View {
         VStack{
-            Text(post.post.title)
+            Text(post.wrapped.title)
             NavigationLink{
                 UserDetailView(user: post.author)
             }label:{
                 UserView(user:post.author)
             }
-            NavigationLink(destination: CommentSectionView(post: post)){
-                Text("Comments")
+            HStack{
+                Image(systemName: "star.fill")
+                Image(systemName: post.wrapped.rating >= 2 ? "star.fill" : "star")
+                Image(systemName: post.wrapped.rating >= 3 ? "star.fill" : "star")
+                Image(systemName: post.wrapped.rating >= 4 ? "star.fill" : "star")
+                Image(systemName: post.wrapped.rating >= 5 ? "star.fill" : "star")
             }
+            
             ScrollView(.horizontal){
-                HStack{ForEach(post.post.tags.shuffled(),id:\.self.tag){tag in
+                HStack{ForEach(post.wrapped.tags.shuffled(),id:\.self.tag){tag in
                     Text(tag.tag)
                 }
                 }}
-            Text(post.post.description)
+            Text(post.wrapped.description)
             
-            List(post.post.instructions){instruction in
+            List(post.wrapped.instructions){instruction in
                 Text(instruction.string)
                 Spacer()
                 
+            }
+            NavigationLink(destination: CommentSectionView(post: post)){
+                Text("Comments")
             }
         }
     }
@@ -40,6 +46,6 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(comments:[], post: PostWrapper(post: Post(), author: User()))
+        PostDetailView(post: CodableWrapper<Post>(wrapped: Post(), author: User()))
     }
 }

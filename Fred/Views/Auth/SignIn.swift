@@ -12,7 +12,9 @@ struct SignIn: View {
     @State var email:String = ""
     @State var password:String = ""
     @State var loading = false
-    @Binding var uid:String?
+    @State var is_error = false
+    @State var error_msg = ""
+    @EnvironmentObject var uid:ObservableOptionalString
     var body: some View {
         VStack{
             TextField("Email", text: $email).autocapitalization(.none).padding()
@@ -26,11 +28,14 @@ struct SignIn: View {
                     loading = true
                     FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password){data,error in
                     if(error == nil){
-                        uid = data?.user.uid
+                        uid.string = data?.user.uid
                         loading = false
                     }else{
                         loading = false
-                        print(error!.localizedDescription)
+                        error_msg = error!.localizedDescription
+
+                        is_error = true
+
                     }
                     
                     }
@@ -38,14 +43,14 @@ struct SignIn: View {
                 }
             }label:{
                 Text("Sign In")
-            }
+            }.disabled(loading)
+        }.alert(isPresented: $is_error) {Alert(title: Text("Error"), message: Text(error_msg),dismissButton: .default(Text("Ok")){})}
         }
     }
-}
 
 struct SignIn_Previews: PreviewProvider {
     static var previews: some View {
-        SignIn(uid:Binding.constant(""))
+        SignIn()
     }
 }
 

@@ -24,6 +24,8 @@ struct UserDetailView: View {
 //            }.pickerStyle(.wheel)
             Text("Details")
         }
+        .task {
+        }
             
         
     }

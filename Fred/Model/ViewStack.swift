@@ -51,10 +51,7 @@ class ViewLayer:ObservableObject,Identifiable,Equatable{
     var uuid = UUID()
     @Published var layer:[ViewState]
     @Published var current_index:Int
-    convenience init(){
-        self.init(layer: [ViewState(name:"Post Create",image:UIImage(systemName: "doc.text")!,view:PostCreateView()),ViewState(name:"Home",image:UIImage(systemName: "house")!,view:PostListView()),ViewState(name:"Settings",image:UIImage(systemName: "gear")!,view:SettingsView())])
-
-    }
+   
     convenience init(layer:[ViewState]){
         self.init(layer:layer,index:0)
     }
@@ -80,7 +77,7 @@ struct ViewLayerView:View{
 }
 class ViewStack:ObservableObject,Identifiable{
     @Published var stack:[ViewLayer]
-    init(){
-        self.stack = [ViewLayer()]
+    init(first_layer:ViewLayer){
+        self.stack = [first_layer]
     }
 }

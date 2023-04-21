@@ -12,7 +12,9 @@ struct SignUp: View {
     @State var email:String = ""
     @State var password:String = ""
     @State var loading = false
-    @Binding var uid:String?
+    @State var is_error = false
+    @State var error_msg = ""
+    @EnvironmentObject var uid:ObservableOptionalString
     var body: some View {
         VStack{
             TextField("Email", text: $email).autocapitalization(.none).padding()
@@ -20,35 +22,45 @@ struct SignUp: View {
             Button{
                 if(!loading){
                     loading = true
+                    print("bruh?")
                     FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password){data,error in
                         if(error == nil){
-                            uid = data?.user.uid
-    
+                            
                             let encoder = JSONEncoder();
-                            let encoded = try? encoder.encode(User(email: email, username: email,uid:uid!));
-                            Storage.storage().reference().child("users/\(uid!)").putData(encoded!){
+                            let encoded = try? encoder.encode(User(email: email, username: email,uid:data!.user.uid));
+                            Storage.storage().reference().child("users/\(data!.user.uid)/user").putData(encoded!){
                                 mdata,merror in
-                                    if(merror == nil){
-                                        loading = false
-                                    }else{
-                                        print(merror!.localizedDescription)
-                                    }
+                                if(merror == nil){
+                                    uid.string = data?.user.uid
+                                    loading = false
+
+                                }else{
+                                    uid.string = data?.user.uid
+                                    error_msg = merror!.localizedDescription
+                                    is_error = true
+                                    loading = false
+
                                 }
-                            }else{
-                                print(error!.localizedDescription)
-                                loading = false
+                            }
+                        }else{
+                            print("unbruh?")
+                            
+                            error_msg = error!.localizedDescription
+                                is_error = true
+                            
+                            
                         }
                     }
                 }
             }label:{
                 Text("Sign Up")
-            }
-        }
+            }.disabled(loading)
+        }.alert(isPresented: $is_error) {Alert(title: Text("Error"), message: Text(error_msg),dismissButton: .default(Text("Ok")){})}
     }
 }
 
 struct SignUp_Previews: PreviewProvider {
     static var previews: some View {
-        SignUp(uid: Binding.constant(""))
+        SignUp()
     }
 }
