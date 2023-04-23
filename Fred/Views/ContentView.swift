@@ -26,7 +26,7 @@ struct ContentView: View {
     let height_offset = UIScreen.main.bounds.width * 0.8 + UIScreen.main.bounds.height * 1;
     var body: some View {
         
-        if (user.uid == .none){
+        if (user.uid == nil){
             NavigationView{
                 VStack{
                     NavigationLink{

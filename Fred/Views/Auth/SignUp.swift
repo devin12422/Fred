@@ -14,7 +14,7 @@ struct SignUp: View {
     @State var loading = false
     @State var is_error = false
     @State var error_msg = ""
-    @EnvironmentObject var uid:ObservableOptionalString
+    @EnvironmentObject var user:User
     var body: some View {
         VStack{
             TextField("Email", text: $email).autocapitalization(.none).padding()
@@ -30,17 +30,17 @@ struct SignUp: View {
                             let encoded = try? encoder.encode(User(email: email, username: email,uid:data!.user.uid));
                             Storage.storage().reference().child("users/\(data!.user.uid)/user").putData(encoded!){
                                 mdata,merror in
-                                if(merror == nil){
-                                    uid.string = data?.user.uid
-                                    loading = false
+                                user.uid = data?.user.uid
 
+                                if(merror == nil){
+                                    user.get()
                                 }else{
-                                    uid.string = data?.user.uid
                                     error_msg = merror!.localizedDescription
                                     is_error = true
-                                    loading = false
 
                                 }
+                                loading = false
+
                             }
                         }else{
                             print("unbruh?")

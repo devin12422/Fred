@@ -14,7 +14,7 @@ struct SignIn: View {
     @State var loading = false
     @State var is_error = false
     @State var error_msg = ""
-    @EnvironmentObject var uid:ObservableOptionalString
+    @EnvironmentObject var user:User
     var body: some View {
         VStack{
             TextField("Email", text: $email).autocapitalization(.none).padding()
@@ -27,16 +27,18 @@ struct SignIn: View {
                 if(!loading){
                     loading = true
                     FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password){data,error in
+                        user.uid = data?.user.uid
+
                     if(error == nil){
-                        uid.string = data?.user.uid
-                        loading = false
+                        user.get()
                     }else{
-                        loading = false
                         error_msg = error!.localizedDescription
 
                         is_error = true
 
                     }
+                        loading = false
+
                     
                     }
                     

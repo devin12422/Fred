@@ -27,19 +27,20 @@ struct CommentView:View{
     }
 }
 struct Comment:Feedable {
+    var id: String
+    
     func getView(author: User) -> CommentView {
         return CommentView(comment: CodableWrapper<Comment>(wrapped:self,author:author))
     }
     
     typealias WrappableView = CommentView
     
-    var id:UUID
     
     var rating: Int
     var content: String
-    init(rating:Int = 1,content:String = ""){
+    init(rating:Int = 1,content:String = "",id:String = ""){
         self.rating = rating
         self.content = content
-        self.id = UUID()
+        self.id = id
     }
 }

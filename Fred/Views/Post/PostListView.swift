@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SwiftUI
+import BackgroundTasks
 import FirebaseStorage
 import FirebaseAuth
 protocol Wrappable:Codable,Identifiable{
@@ -48,6 +48,7 @@ struct ListView<ListItemType:Feedable>: View{
     }
     func getPosts(){
         print("fetching items")
+        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: "GTMSessionFetcher-firebasestorage.googleapis.com")
         Storage.storage().reference().child(path).list(maxResults:8,pageToken: page_token,completion:{(result,error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -68,8 +69,8 @@ struct ListView<ListItemType:Feedable>: View{
                                 item.child("item").getData(maxSize: Int64.max){
                                     (item_data,error)in
 //                                    print(item_data.)
-                                    if let error = error {
-                                        print(error.localizedDescription)
+                                    if error != nil {
+                                        print(error!.localizedDescription)
                                         feed_state = .Error
                                     }else{
                                         guard let item = try? decoder.decode(ListItemType.self, from: item_data!)
@@ -79,6 +80,7 @@ struct ListView<ListItemType:Feedable>: View{
                                             return;
                                         }
                                         posts.append(CodableWrapper<ListItemType>(wrapped:item,author:user))
+                                        print(item)
                                     }
                                 }
                             }
@@ -86,6 +88,7 @@ struct ListView<ListItemType:Feedable>: View{
                     }
                     
                 }
+                print(posts)
                 feed_state = .Loaded
                 
             }

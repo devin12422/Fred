@@ -14,7 +14,7 @@ extension View{   func flippedUpsideDown() -> some View{     self.modifier(Flipp
 struct CommentSectionView: View {
     var post:CodableWrapper<Post>
     @State var comments: [CodableWrapper<Comment>] = []
-    @State var comment:Comment = Comment()
+    @State var comment:Comment = Comment(id:Auth.auth().currentUser!.uid)
     
     @State var page_token:String = ""
     @State var can_comment = false
@@ -22,30 +22,29 @@ struct CommentSectionView: View {
     @State var posted = false
     var body: some View {
         VStack(alignment: .leading){
-            ScrollView{
-                if(can_comment){
-                    VStack(alignment: .leading) {
-                        HStack{Picker("Rating", selection: $comment.rating){
-                            Image(systemName: "star.fill").tag(1)
-                            Image(systemName: comment.rating >= 2 ? "star.fill" : "star").tag(2)
-                            Image(systemName: comment.rating >= 3 ? "star.fill" : "star").tag(3)
-                            Image(systemName: comment.rating >= 4 ? "star.fill" : "star").tag(4)
-                            Image(systemName: comment.rating >= 5 ? "star.fill" : "star").tag(5)
-                        }.pickerStyle(.segmented)}
-                        TextField("Review", text: $comment.content)
-                        Button {
-                            addComment()
-                        } label: {
-                            ZStack {
-                                Rectangle().cornerRadius(45).frame(width: 100, height: 50)
-                                Text("Post").foregroundColor(.white)
-                            }
-                        }.disabled(comment_loading)
-                        
-                    }}
-                ListView<Comment>(path: "posts/\(post.author.uid!)/\(post.wrapped.uuid)/comments", max_results_from_same_user: 2)
+            if(can_comment){
+                VStack(alignment: .leading) {
+                    HStack{Picker("Rating", selection: $comment.rating){
+                        Image(systemName: "star.fill").tag(1)
+                        Image(systemName: comment.rating >= 2 ? "star.fill" : "star").tag(2)
+                        Image(systemName: comment.rating >= 3 ? "star.fill" : "star").tag(3)
+                        Image(systemName: comment.rating >= 4 ? "star.fill" : "star").tag(4)
+                        Image(systemName: comment.rating >= 5 ? "star.fill" : "star").tag(5)
+                    }.pickerStyle(.segmented)}
+                    TextField("Review", text: $comment.content)
+                    Button {
+                        addComment()
+                    } label: {
+                        ZStack {
+                            Rectangle().cornerRadius(45).frame(width: 100, height: 50)
+                            Text("Post").foregroundColor(.white)
+                        }
+                    }.disabled(comment_loading)
+                    
+                }}
                 
-            }.padding()
+                ListView<Comment>(path: "posts/\(post.author.uid!)/\(post.wrapped.uuid)/comments", max_results_from_same_user: 1)
+                
         }.padding().alert(isPresented: $posted) {Alert(title: Text("Success"), message: Text("Your review has been posted."),dismissButton: .default(Text("Ok")){
             comment = Comment()})}.task{
                 can_comment = try! await canComment()
