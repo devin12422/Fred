@@ -11,17 +11,24 @@ import FirebaseCore
 import FirebaseStorage
 
 class User:Codable,ObservableObject,Equatable, Hashable,Identifiable{
+    enum CodingKeys: String, CodingKey {
+        case username
+        case email
+        case uid
+        case image
+    }
+
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.uid == rhs.uid
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(uid)
     }
-    var username:String
+    @Published var username:String
     var email:String
-    var uid:String?
+    @Published var uid:String?
     // Consider making this optional and removing uid observable environment variable
-    var image:Data
+    @Published var image:Data
     init(email:String = "",username:String? = .none,uid:String? = .none,image:UIImage = UIImage(systemName: "person.crop.circle")!){
         self.email = email;
         if(username != nil){
@@ -72,9 +79,24 @@ class User:Codable,ObservableObject,Equatable, Hashable,Identifiable{
             }
         }
     }
+        required init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+            username = try values.decode(String.self, forKey: .username)
+            uid = try values.decode(String.self, forKey: .uid)
+            email = try values.decode(String.self, forKey: .email)
+            image = try values.decode(Data.self, forKey: .image)
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(uid, forKey: .uid)
+            try container.encode(image, forKey: .image)
+            try container.encode(username, forKey: .username)
+            try container.encode(email, forKey: .email)
+        }
     func send(){
         let encoder = JSONEncoder();
         let encoded = try? encoder.encode(self);
-        Storage.storage().reference().child("users/\(self.uid)/user").putData(encoded!);
+        Storage.storage().reference().child("users/\(self.uid!)/user").putData(encoded!);
     }
 }
