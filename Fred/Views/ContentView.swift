@@ -17,7 +17,7 @@ func getIndices(states:[ViewState])->[ViewState:Float]{
 }
 struct ContentView: View {
     @StateObject var user:User = User(uid:Auth.auth().currentUser?.uid)
-    @StateObject var view_stack:ViewStack = ViewStack(first_layer: ViewLayer(layer:[ViewState(name:"Post Create",image:UIImage(systemName: "doc.text")!,view:PostCreateView()),ViewState(name:"Home",image:UIImage(systemName: "house")!,view:NavigationView{ListView<Post>(path: "posts", max_results_from_same_user: 2)}),ViewState(name:"Settings",image:UIImage(systemName: "gear")!,view:SettingsView())]))
+    @StateObject var view_stack:ViewStack = ViewStack(first_layer: ViewLayer(layer:[ViewState(name:"Post Create",image:UIImage(systemName: "doc.text")!,view:PostCreateView()),ViewState(name:"Home",image:UIImage(systemName: "house")!,view:NavigationView{ListView<Post>(path: "posts", max_results_from_same_user: 2)}),ViewState(name:"Settings",image:UIImage(systemName: "gear")!,view:SettingsView())], index:1))
     @State var view_state_index:Int = 1
     @State var radians:CGFloat = 0.0
     @State var top_offset:CGFloat = 0.0
@@ -93,6 +93,8 @@ struct ContentView: View {
         if(top_offset > 32 && view_stack.stack.count > 1){
             view_stack.stack.removeLast()
             radians = -CGFloat(view_stack.stack.last!.current_index + 1) / CGFloat(view_stack.stack.last!.layer.count + 1) + 0.5 - radians
+            view_stack.stack.last!.current_index = view_stack.stack.last!.start_index
+
             view_state_index = view_stack.stack.last!.start_index
         }else{
             var closest = -CGFloat(view_state_index + 1) / CGFloat(view_stack.stack.last!.layer.count + 1) + 0.5 - radians
