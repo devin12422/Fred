@@ -41,32 +41,50 @@ struct PostDescriptionEditingView: View {
             Text("Please make a description for the post")
             TextField("Description",text: $post.description)
                 .sheet(isPresented: $tag_is_showing){
-                ScrollView{
-                    ForEach(getTagTypes().shuffled()){type in
-                        VStack{
-                            Text(type.name)
-                            ScrollView(.horizontal){
-                                HStack{
-                                    ForEach(type.cases.shuffled(),id:\.self){ instance in
-                                        Button{
-                                            post.tags.insert(instance)
-                                            tag_is_showing.toggle()
-                                            tag_view = AnyView(generateTagView())
-                                        }label:{
-                                            Text(instance.tag)
-                                            
+                    ScrollView{
+                        ForEach(getTagTypes().shuffled()){type in
+                            VStack{
+                                Text(type.name)
+                                ScrollView(.horizontal){
+                                    HStack{
+                                        ForEach(type.cases.shuffled(),id:\.self){ instance in
+                                            Button{
+                                                post.tags.insert(instance)
+                                                tag_is_showing.toggle()
+                                                tag_view = AnyView(generateTagView())
+                                            }label:{
+                                                Text(instance.tag)
+                                                
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    
                 }
-                
-            }
-            .alert(isPresented: $posted) {Alert(title: Text("Success"), message: Text("Your post has been created."),dismissButton: .default(Text("Ok")){
-                tag_view = AnyView(EmptyView())
-                post.reset()})}
+            Button{
+                if(post.isComplete() && !loading){
+                    loading = true
+                    guard let uid = Auth.auth().currentUser?.uid else{return}
+                    let encoder = JSONEncoder();
+                    let encoded = try? encoder.encode(post);
+                    Storage.storage().reference().child("posts/\(uid)/\(post.uuid)/item").putData(encoded!){
+                        _, error in
+                        if error == nil{
+                            posted = true
+                            loading = false
+                        }else{
+                            print(error!.localizedDescription)
+                        }
+                    }
+                    
+                }
+            }label:{Text("Post")}
+                .alert(isPresented: $posted) {Alert(title: Text("Success"), message: Text("Your post has been created."),dismissButton: .default(Text("Ok")){
+                    tag_view = AnyView(EmptyView())
+                    post.reset()})}
         }
     }
     func getTagTypes() -> Set<TagType> {
