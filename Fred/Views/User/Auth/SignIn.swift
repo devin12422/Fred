@@ -9,7 +9,6 @@ import SwiftUI
 import FirebaseAuth
 
 struct SignIn: View {
-    @State var email:String = ""
     @State var password:String = ""
     @State var loading = false
     @State var is_error = false
@@ -25,7 +24,7 @@ struct SignIn: View {
 //            Button{}label:{Text("Forgot Password")}
             Button{
                     loading = true
-                    FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password){data,error in
+                FirebaseAuth.Auth.auth().signIn(withEmail: user.email, password: password){data,error in
                         user.uid = data?.user.uid
 
                     if(error == nil){
