@@ -33,9 +33,7 @@ struct PostDetailView: View {
             Text(post.wrapped.description)
             
             List(post.wrapped.instructions){instruction in
-                Text(instruction.string)
-                Spacer()
-                
+                Text(instruction.string)                
             }
             NavigationLink(destination: CommentSectionView(post: post)){
                 Text("Comments")
