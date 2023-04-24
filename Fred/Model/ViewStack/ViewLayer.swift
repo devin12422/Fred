@@ -18,7 +18,7 @@ class ViewLayer:ObservableObject,Identifiable,Equatable{
     @Published var radians:CGFloat
     @Published var layer:[ViewState]
     @Published var current_index:Int
-    private var start_index:Int
+    var start_index:Int
     init(layer:[ViewState],index:Int = 0){
         self.layer = layer
         self.current_index = index

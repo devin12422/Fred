@@ -93,7 +93,7 @@ struct ContentView: View {
         if(top_offset > 32 && view_stack.stack.count > 1){
             view_stack.stack.removeLast()
             radians = -CGFloat(view_stack.stack.last!.current_index + 1) / CGFloat(view_stack.stack.last!.layer.count + 1) + 0.5 - radians
-            view_state_index = view_stack.stack.last!.current_index
+            view_state_index = view_stack.stack.last!.start_index
         }else{
             var closest = -CGFloat(view_state_index + 1) / CGFloat(view_stack.stack.last!.layer.count + 1) + 0.5 - radians
             for state in view_stack.stack.last!.layer{
