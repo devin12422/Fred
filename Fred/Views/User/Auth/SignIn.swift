@@ -43,7 +43,7 @@ struct SignIn: View {
                     
             }label:{
                 Text("Sign In")
-            }.disabled(loading || user.email.isEmpty || (password.count < 6))
+            }.disabled(loading || (password.count < 6))
         }.alert(isPresented: $is_error) {Alert(title: Text("Error"), message: Text(error_msg),dismissButton: .default(Text("Ok")){})}
         }
     }
