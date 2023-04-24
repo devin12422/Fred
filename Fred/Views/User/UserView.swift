@@ -12,7 +12,7 @@ struct UserView: View {
     @EnvironmentObject var view_stack:ViewStack
     var body: some View {
         Button{
-            view_stack.stack.append(ViewLayer(layer:[ViewState(name:"Reviews",image:UIImage(systemName: "star.fill")!,view:PostCreateView()),ViewState(name:"About",image:UIImage(data:user.image)!,view:UserDetailView(user: user)),ViewState(name:"Posts",image:UIImage(systemName: "tray.full")!,view:QuickFeed(user:user, max_results_from_same_user: 64))]))
+            view_stack.stack.append(ViewLayer(layer:[ViewState(name:"About",image:UIImage(data:user.image)!,view:UserDetailView(user: user)),ViewState(name:"Posts",image:UIImage(systemName: "tray.full")!,view:QuickFeed(user:user, max_results_from_same_user: 64))]))
         }label:{HStack {
             Image(uiImage:UIImage(data:user.image)!).resizable().frame(width: 40, height: 40).clipShape(Circle())
             Text(user.username).font(.subheadline) .fontWeight(.bold)
