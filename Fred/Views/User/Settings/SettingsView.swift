@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseStorage
 import AVFoundation
+import BackgroundTasks
 struct SettingsView: View{
     @EnvironmentObject var user:User
     @State var image:UIImage = UIImage(systemName: "person.crop.circle.fill")!
@@ -50,6 +51,8 @@ struct SettingsView: View{
         }content:{
             ImagePicker(selectedImage: $image)
         }.task{
+            BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: "GTMSessionFetcher-firebasestorage.googleapis.com")
+
             self.image = UIImage(data:user.image)!
         }
     }

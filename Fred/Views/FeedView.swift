@@ -9,13 +9,7 @@ import SwiftUI
 import BackgroundTasks
 import FirebaseStorage
 import FirebaseAuth
-protocol Wrappable:Codable,Identifiable{
-    
-}
-protocol Feedable:Wrappable{
-    associatedtype WrappableView: View
-    func getView(author:User) -> WrappableView;
-}
+
 enum FeedState{
     case Loading
     case Loaded
@@ -68,7 +62,6 @@ struct ListView<ListItemType:Feedable>: View{
                                 
                                 item.child("item").getData(maxSize: Int64.max){
                                     (item_data,error)in
-//                                    print(item_data.)
                                     if error != nil {
                                         print(error!.localizedDescription)
                                         feed_state = .Error
@@ -88,7 +81,6 @@ struct ListView<ListItemType:Feedable>: View{
                     }
                     
                 }
-                print(posts)
                 feed_state = .Loaded
                 
             }

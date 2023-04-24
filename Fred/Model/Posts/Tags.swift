@@ -10,12 +10,20 @@ struct TagType:Codable,Hashable,Identifiable{
     var name:String
     var cases:Set<TagInstance>
     var isUnique:Bool
-    static var ALL_TAGS:Set<TagType> = [];
+    static var ALL_TAGS:Set<TagType>{get{
+        return [TagType(name:"Meal",cases:["Breakfast","Lunch","Dinner"],isUnique: true),
+        TagType(name:"Ethnicity",cases:["Italian","French","American","Hispanic"],isUnique: true),
+        TagType(name:"Restrictions",cases:["Vegan","Vegetarian","Gluten Free"],isUnique: false)]
+    }}
     init(name:String,cases:Set<TagInstance>,isUnique:Bool){
         self.name = name
-        self.cases = cases
         self.isUnique = isUnique
-        Self.ALL_TAGS.insert(self)
+        self.cases = []
+        cases.forEach{instance in
+            var new_instance = instance
+            new_instance.tag_type = self
+            self.cases.insert(new_instance)
+        }
     }
     init(name:String,cases:Set<String>,isUnique:Bool){
         self.name = name
@@ -25,7 +33,6 @@ struct TagType:Codable,Hashable,Identifiable{
         cases.forEach{instance in
             self.cases.insert(TagInstance(tag_type: self, tag: instance))
         }
-        Self.ALL_TAGS.insert(self)
     }
     var id:  String {get{return name}}
 }

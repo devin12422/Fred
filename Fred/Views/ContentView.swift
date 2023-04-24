@@ -14,7 +14,6 @@ func getIndices(states:[ViewState])->[ViewState:Float]{
         state_dict[states[x]] = Float(x+1) / Float(states.count+1)
     }
     return state_dict;
-    
 }
 struct ContentView: View {
     @StateObject var user:User = User(uid:Auth.auth().currentUser?.uid)
@@ -45,6 +44,9 @@ struct ContentView: View {
             
         }else{
             ZStack{
+//                ForEach($view_stack.stack){stack in
+//                    stack.layer[stack.currentIndex].view.body
+//                }
                 view_stack.stack.last?.layer[view_state_index].view.body
                 
                 ZStack{
@@ -57,6 +59,7 @@ struct ContentView: View {
                             let image:Image = state.image
                             image.padding().background(Color.white).cornerRadius(32).rotationEffect(Angle(radians: (view_stack.stack.firstIndex(of:stack) == view_stack.stack.count - 1) ? Double(-radians) : 0)).offset(x:offset_multiplier * cos(index),y: offset_multiplier * sin(index) - ((view_stack.stack.firstIndex(of:stack) == view_stack.stack.count - 1) ? top_offset : 0))
                         }.rotationEffect((view_stack.stack.firstIndex(of:stack) == view_stack.stack.count - 1) ? Angle(radians:Double(radians)) : Angle(radians:0),anchor: UnitPoint.center)
+                        
                     }
                     
                 }.gesture(DragGesture(minimumDistance: 0, coordinateSpace: CoordinateSpace.local).onChanged(onChanged(value:)).onEnded(onEnded(value:))).position(x:UIScreen.main.bounds.width / 2 ,y:height_offset)
@@ -76,8 +79,6 @@ struct ContentView: View {
             
         }
         
-        
-        
     }
     func getCenteredCircularIndex(layer:ViewLayer,state:ViewState) -> CGFloat{
         return CGFloat(layer.layer.firstIndex(of: state)! + 1) / CGFloat(layer.layer.count + 1) + 1.07
@@ -85,7 +86,7 @@ struct ContentView: View {
     func onChanged(value:DragGesture.Value){
         //        (CGFloat(view_state_index) + 1.07) +
         radians = -CGFloat(view_state_index + 1) / CGFloat(view_stack.stack.last!.layer.count + 1) + 0.5 + atan2(value.location.x / UIScreen.main.bounds.width - 1,(value.location.y / UIScreen.main.bounds.width - 1) * -1) - atan2(value.startLocation.x / UIScreen.main.bounds.width - 1,(value.startLocation.y / UIScreen.main.bounds.width - 1) * -1)
-        top_offset = max(min(64,sin(-radians + .pi / 2) - value.location.y),0)
+        if(view_stack.stack.count > 1 ){top_offset = max(min(64,sin(-radians + .pi / 2) - value.location.y),0)}
     }
     func onEnded(value:DragGesture.Value){
         
@@ -99,9 +100,11 @@ struct ContentView: View {
                 let dist = -CGFloat(view_stack.stack.last!.layer.firstIndex(of: state)! + 1) / CGFloat(view_stack.stack.last!.layer.count + 1) + 0.5 - radians
                 if(abs(dist) < abs(closest)){
                     closest = dist
+
                     view_state_index = view_stack.stack.last!.layer.firstIndex(of: state)!
                 }
             }
+            view_stack.stack.last!.current_index = view_state_index
             radians = closest + radians
         }
         top_offset = 0

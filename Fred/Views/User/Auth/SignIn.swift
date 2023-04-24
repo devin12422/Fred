@@ -17,14 +17,13 @@ struct SignIn: View {
     @EnvironmentObject var user:User
     var body: some View {
         VStack{
-            TextField("Email", text: $email).autocapitalization(.none).padding()
+            TextField("Email", text: $user.email).autocapitalization(.none).padding()
             SecureField("Password",text: $password).padding()
 //        if let message = errorMessage {
 //    Text(message).foregroundColor(.red).padding()
 //            }
 //            Button{}label:{Text("Forgot Password")}
             Button{
-                if(!loading){
                     loading = true
                     FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password){data,error in
                         user.uid = data?.user.uid
@@ -42,10 +41,9 @@ struct SignIn: View {
                     
                     }
                     
-                }
             }label:{
                 Text("Sign In")
-            }.disabled(loading)
+            }.disabled(loading || user.email.isEmpty || (password.count < 6))
         }.alert(isPresented: $is_error) {Alert(title: Text("Error"), message: Text(error_msg),dismissButton: .default(Text("Ok")){})}
         }
     }

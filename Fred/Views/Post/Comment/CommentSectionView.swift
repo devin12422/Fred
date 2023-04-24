@@ -8,8 +8,11 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseStorage
-struct FlippedUpsideDown: ViewModifier {   func body(content: Content) -> some View {    content      .rotationEffect(.degrees(180))      .scaleEffect(x: -1, y: 1, anchor: .center)   }}
-extension View{   func flippedUpsideDown() -> some View{     self.modifier(FlippedUpsideDown())   }
+struct FlippedUpsideDown: ViewModifier {
+    func body(content: Content) -> some View {    content.rotationEffect(.degrees(180)).scaleEffect(x: -1, y: 1, anchor: .center)   }
+}
+extension View{
+    func flippedUpsideDown() -> some View{     self.modifier(FlippedUpsideDown())   }
 }
 struct CommentSectionView: View {
     var post:CodableWrapper<Post>
@@ -107,11 +110,8 @@ struct CommentSectionView: View {
                 print(error!.localizedDescription)
             }
         }
-        
-    }}
-
-
-
+    }
+}
 
 struct CommentSectionView_Previews: PreviewProvider {
     static var previews: some View {

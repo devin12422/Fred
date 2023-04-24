@@ -10,7 +10,6 @@ import SwiftUI
 
 struct CommentView:View{
     var comment:CodableWrapper<Comment>
-
     var body:some View{
         VStack(alignment: .leading) {
             UserView(user:comment.author)

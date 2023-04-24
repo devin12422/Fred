@@ -7,6 +7,7 @@ target 'Fred' do
 pod 'FirebaseCore'
 pod 'FirebaseAuth'
 pod 'FirebaseStorage'
+pod 'SwiftCollections'
   # Pods for Fred
 
 end
